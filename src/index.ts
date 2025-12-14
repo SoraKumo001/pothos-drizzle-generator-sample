@@ -9,11 +9,11 @@ import { getTableConfig } from "drizzle-orm/pg-core";
 import { generate } from "graphql-auto-query";
 import { Hono } from "hono";
 import PothosDrizzleGeneratorPlugin from "pothos-drizzle-generator";
-import {
-  isOperation,
-  OperationMutation,
-  OperationQuery,
-} from "pothos-drizzle-generator";
+// import {
+//   isOperation,
+//   OperationMutation,
+//   OperationQuery,
+// } from "pothos-drizzle-generator";
 import { relations } from "./db/relations";
 
 const db = drizzle({
