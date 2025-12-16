@@ -1,4 +1,3 @@
-import "dotenv/config";
 import SchemaBuilder from "@pothos/core";
 import DrizzlePlugin from "@pothos/plugin-drizzle";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -12,11 +11,6 @@ import PothosDrizzleGeneratorPlugin, {
   OperationQuery,
 } from "pothos-drizzle-generator";
 import { relations } from "./db/relations.js";
-// import {
-//   isOperation,
-//   OperationMutation,
-//   OperationQuery,
-// } from "pothos-drizzle-generator";
 import type { Context } from "./context.js";
 import type { Context as HonoContext } from "hono";
 
@@ -42,38 +36,37 @@ const builder = new SchemaBuilder<PothosTypes>({
     getTableConfig,
   },
   pothosDrizzleGenerator: {
-    // 使用しないテーブル
+    // Tables not used
     use: { exclude: ["postsToCategories"] },
+    // Applies to all models
     all: {
-      // クエリの最大の深さ
+      // Maximum query depth
       depthLimit: () => 5,
       executable: ({ operation, ctx }) => {
-        // 認証ユーザでない場合は書き込み禁止
+        // Prohibit write operations if the user is not authenticated
         if (isOperation(OperationMutation, operation) && !ctx.get("user")) {
           return false;
         }
         return true;
       },
       inputFields: () => {
+        // Exclude auto-generated fields
         return { exclude: ["createdAt", "updatedAt"] };
       },
     },
+    // Apply to individual models
     models: {
-      users: {
-        // データの変更禁止
-        // operations: { exclude: ["mutation"] },
-      },
       posts: {
-        // 上書き禁止フィールド
-        // inputFields: () => ({ exclude: ["createdAt", "updatedAt"] }), // allで定義するためコメントアウト
-        // データ書き込み時は自分のIDを設定
+        // Fields that cannot be overwritten
+        // inputFields: () => ({ exclude: ["createdAt", "updatedAt"] }), // Defined in "all", so commented out
+        // Set the current user's ID when writing data
         inputData: ({ ctx }) => {
           const user = ctx.get("user");
           if (!user) throw new Error("No permission");
           return { authorId: user.id };
         },
         where: ({ ctx, operation }) => {
-          // 抽出時は公開されているデータか、自分のデータ
+          // When querying, only return published data or the user's own data
           if (isOperation(OperationQuery, operation)) {
             return {
               OR: [
@@ -82,7 +75,7 @@ const builder = new SchemaBuilder<PothosTypes>({
               ],
             };
           }
-          // 書き込み時は自分のデータ
+          // When writing, only allow operations on the user's own data
           if (isOperation(OperationMutation, operation)) {
             return { authorId: ctx.get("user")?.id };
           }
@@ -92,7 +85,7 @@ const builder = new SchemaBuilder<PothosTypes>({
   },
 });
 
-// 認証機能の追加
+// Addition of authentication functionality
 builder.mutationType({
   fields: (t) => ({
     me: t.drizzleField({
