@@ -1,5 +1,4 @@
-import type { relations } from "./db/relations";
-import type { Context as C } from "hono";
+import type { relations } from "./db/relations.js";
 
 export type Context = {
   Variables: {

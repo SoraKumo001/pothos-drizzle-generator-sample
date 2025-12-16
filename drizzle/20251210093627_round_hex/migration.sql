@@ -1,2 +1,0 @@
-ALTER TABLE "PostToCategory" DROP CONSTRAINT "PostToCategory_postId_Post_id_fkey", ADD CONSTRAINT "PostToCategory_postId_Post_id_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE;--> statement-breakpoint
-ALTER TABLE "PostToCategory" DROP CONSTRAINT "PostToCategory_categoryId_Category_id_fkey", ADD CONSTRAINT "PostToCategory_categoryId_Category_id_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE;

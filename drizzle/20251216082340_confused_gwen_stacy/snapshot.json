@@ -1,9 +1,9 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "7527e3f6-c4b1-47b9-90f8-ea91352cdac1",
+  "id": "44b8dc6c-cde5-4947-a46b-93825e632b7e",
   "prevIds": [
-    "4d098acd-7de7-41d9-88f9-3397df2b9bc2"
+    "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
     {
@@ -30,12 +30,6 @@
     {
       "isRlsEnabled": false,
       "name": "PostToCategory",
-      "entityType": "tables",
-      "schema": "public"
-    },
-    {
-      "isRlsEnabled": false,
-      "name": "Test",
       "entityType": "tables",
       "schema": "public"
     },
@@ -228,58 +222,6 @@
       "table": "PostToCategory"
     },
     {
-      "type": "integer",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "a",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "Test"
-    },
-    {
-      "type": "double precision",
-      "typeSchema": null,
-      "notNull": true,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "b",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "Test"
-    },
-    {
-      "type": "boolean",
-      "typeSchema": null,
-      "notNull": false,
-      "dimensions": 1,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "c",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "Test"
-    },
-    {
-      "type": "Role",
-      "typeSchema": "public",
-      "notNull": false,
-      "dimensions": 0,
-      "default": null,
-      "generated": null,
-      "identity": null,
-      "name": "enumTest",
-      "entityType": "columns",
-      "schema": "public",
-      "table": "Test"
-    },
-    {
       "type": "uuid",
       "typeSchema": null,
       "notNull": true,
@@ -321,7 +263,7 @@
     {
       "type": "Role",
       "typeSchema": "public",
-      "notNull": false,
+      "notNull": true,
       "dimensions": 1,
       "default": "'{USER}'",
       "generated": null,

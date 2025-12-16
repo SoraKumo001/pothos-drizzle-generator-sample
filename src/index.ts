@@ -8,9 +8,9 @@ import { contextStorage } from "hono/context-storage";
 import { getContext } from "hono/context-storage";
 import { getCookie } from "hono/cookie";
 import { jwtVerify } from "jose";
-import { schema } from "./builder";
-import type { Context } from "./context";
-import type { relations } from "./db/relations";
+import { schema } from "./builder.js";
+import type { Context } from "./context.js";
+import type { relations } from "./db/relations.js";
 
 const app = new Hono<Context>();
 app.use(contextStorage());

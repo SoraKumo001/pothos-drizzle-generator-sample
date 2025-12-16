@@ -55,10 +55,3 @@ export const postsToCategories = pgTable(
   },
   (t) => [primaryKey({ columns: [t.postId, t.categoryId] })]
 );
-
-export const tests = pgTable("Test", {
-  a: p.integer().notNull(),
-  b: p.doublePrecision().notNull(),
-  c: p.boolean().array(),
-  enumTest: roleEnum(),
-});
