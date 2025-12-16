@@ -7,8 +7,6 @@ import {
   pgEnum,
   primaryKey,
 } from "drizzle-orm/pg-core";
-import * as p from "drizzle-orm/pg-core";
-
 // Enum 定義
 export const roleEnum = pgEnum("Role", ["ADMIN", "USER"]);
 

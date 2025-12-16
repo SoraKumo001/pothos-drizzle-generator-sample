@@ -8,6 +8,8 @@
     "drizzle:migrate": "drizzle-kit migrate",
     "drizzle:reset": "tsx tools/reset",
     "drizzle:seed": "tsx tools/seed",
+    "build": "tsc",
+    "start": "node dist",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src"
   },

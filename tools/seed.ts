@@ -2,8 +2,8 @@ import "dotenv/config";
 
 import { drizzle } from "drizzle-orm/node-postgres";
 import { reset, seed } from "drizzle-seed";
-import * as schema from "../src/db/schema";
-import { relations } from "../src/db/relations";
+import { relations } from "../src/db/relations.js";
+import * as schema from "../src/db/schema.js";
 
 async function main() {
   const db = drizzle(process.env.DATABASE_URL!, { relations });
