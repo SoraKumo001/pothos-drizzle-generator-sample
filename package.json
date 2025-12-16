@@ -44,7 +44,7 @@
   },
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/node-libraries/pothos-drizzle-generator",
   "author": "SoraKumo <info@croud.jp>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/SoraKumo001/pothos-drizzle-generator-sample"
 }
