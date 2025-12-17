@@ -14,8 +14,18 @@ import { relations } from "./db/relations.js";
 import type { Context } from "./context.js";
 import type { Context as HonoContext } from "hono";
 
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set");
+}
+const url = new URL(connectionString);
+const searchPath = url.searchParams.get("schema") ?? "public";
+
 const db = drizzle({
-  connection: process.env.DATABASE_URL!,
+  connection: {
+    connectionString,
+    options: `--search_path=${searchPath}`,
+  },
   relations,
   logger: true,
 });

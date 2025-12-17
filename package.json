@@ -5,7 +5,7 @@
     "dev": "tsx --watch src/index.ts",
     "dev:docker": "docker compose -f docker/development/docker-compose.yml up -d",
     "drizzle:generate": "drizzle-kit generate",
-    "drizzle:migrate": "drizzle-kit migrate",
+    "drizzle:migrate": "tsx tools/change-schema && drizzle-kit migrate && tsx tools/change-schema public",
     "drizzle:reset": "tsx tools/reset",
     "drizzle:seed": "tsx tools/seed",
     "build": "tsc",

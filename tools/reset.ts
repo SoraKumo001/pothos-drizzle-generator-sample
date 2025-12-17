@@ -2,19 +2,22 @@ import "dotenv/config";
 import { drizzle } from "drizzle-orm/node-postgres";
 
 const main = async () => {
-  const connection = process.env.DATABASE_URL!;
-  if (!connection) {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
     throw new Error("DATABASE_URL is not set");
   }
+  const url = new URL(connectionString);
+  const searchPath = url.searchParams.get("schema") ?? "public";
   const db = drizzle({
-    connection: process.env.DATABASE_URL!,
+    connection: {
+      connectionString,
+      options: `--search_path=${searchPath}`,
+    },
   });
-  const url = new URL(connection);
-  const schema = url.searchParams.get("schema") ?? "public";
-  await db.execute(`drop schema ${schema} cascade`);
-  await db.execute(`create schema ${schema}`);
+
+  await db.execute(`drop schema ${searchPath} cascade`).catch(() => {});
   db.$client.end();
-  console.log(`reset ${schema}`);
+  console.log(`reset ${searchPath}`);
 };
 
 main();
