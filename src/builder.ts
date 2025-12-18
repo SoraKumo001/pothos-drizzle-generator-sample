@@ -67,8 +67,6 @@ const builder = new SchemaBuilder<PothosTypes>({
     // Apply to individual models
     models: {
       posts: {
-        // Fields that cannot be overwritten
-        // inputFields: () => ({ exclude: ["createdAt", "updatedAt"] }), // Defined in "all", so commented out
         // Set the current user's ID when writing data
         inputData: ({ ctx }) => {
           const user = ctx.get("user");
