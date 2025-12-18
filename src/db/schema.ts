@@ -6,7 +6,6 @@ import {
   timestamp,
   pgEnum,
   primaryKey,
-  pgSchema,
 } from "drizzle-orm/pg-core";
 
 // Enum 定義
