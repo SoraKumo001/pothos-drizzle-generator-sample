@@ -30,7 +30,12 @@ const db = drizzle({
   relations,
   logger: {
     logQuery: (query, params) => {
-      console.info(format(query, { language: "postgresql" }), "\n--\n", params);
+      console.info(
+        "===========================\n",
+        format(query, { language: "postgresql" }),
+        "\n--\n",
+        params
+      );
     },
   },
 });

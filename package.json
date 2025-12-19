@@ -26,7 +26,7 @@
     "graphql-auto-query": "^1.0.4",
     "hono": "^4.11.1",
     "jose": "^6.1.3",
-    "pothos-drizzle-generator": "^0.1.6",
+    "pothos-drizzle-generator": "^0.1.7",
     "sql-formatter": "15.6.12"
   },
   "devDependencies": {
