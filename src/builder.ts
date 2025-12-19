@@ -10,6 +10,7 @@ import PothosDrizzleGeneratorPlugin, {
   OperationMutation,
   OperationQuery,
 } from "pothos-drizzle-generator";
+import { format } from "sql-formatter";
 import { relations } from "./db/relations.js";
 import type { Context } from "./context.js";
 import type { Context as HonoContext } from "hono";
@@ -27,7 +28,11 @@ const db = drizzle({
     options: `--search_path=${searchPath}`,
   },
   relations,
-  logger: true,
+  logger: {
+    logQuery: (query, params) => {
+      console.info(format(query, { language: "postgresql" }), "\n--\n", params);
+    },
+  },
 });
 
 export interface PothosTypes {
@@ -78,8 +83,8 @@ const builder = new SchemaBuilder<PothosTypes>({
           if (isOperation(OperationQuery, operation)) {
             return {
               OR: [
-                { published: true },
                 { authorId: { eq: ctx.get("user")?.id } },
+                { published: { eq: true } },
               ],
             };
           }
