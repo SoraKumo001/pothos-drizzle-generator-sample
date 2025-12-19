@@ -39,7 +39,10 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "pothos-drizzle-generator": ["./src/pothos-drizzle-generator/index.js"]
+    }
   },
   "exclude": ["drizzle.config.ts", "tools/**/*", "dist/**/*"]
 }
