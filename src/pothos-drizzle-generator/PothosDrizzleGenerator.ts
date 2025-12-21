@@ -3,6 +3,7 @@ import { BasePlugin, type BuildCache, type SchemaTypes } from "@pothos/core";
 import { and, eq, sql } from "drizzle-orm";
 import { DrizzleGenerator } from "./generator.js";
 import { createWhereQuery, getQueryDepth } from "./libs/utils.js";
+import type { DrizzleObjectRef } from "@pothos/plugin-drizzle";
 import type { GraphQLResolveInfo } from "graphql";
 
 export class PothosDrizzleGenerator<
@@ -24,6 +25,7 @@ export class PothosDrizzleGenerator<
 
     const builder = this.builder;
     const tables = generator.getTables();
+    const modelObjects: Record<string, DrizzleObjectRef<any>> = {};
     for (const [
       modelName,
       {
@@ -40,28 +42,10 @@ export class PothosDrizzleGenerator<
         depthLimit,
       },
     ] of Object.entries(tables)) {
-      const objectRef = builder.objectRef(`${tableInfo.name}_`);
-      objectRef.implement({
-        fields: (t) =>
-          Object.fromEntries(
-            columns.map((c) => {
-              return [
-                c.name,
-                t.expose(
-                  c.name as never,
-                  {
-                    type: generator.getDataType(c),
-                    nullable: !c.notNull,
-                  } as never
-                ),
-              ];
-            })
-          ),
-      });
       const filterRelations = Object.entries(relations).filter(
         ([, relay]) => tables[relay.targetTableName]
       );
-      builder.drizzleObject(modelName as never, {
+      modelObjects[modelName] = builder.drizzleObject(modelName as never, {
         name: tableInfo.name,
         fields: (t) => {
           const relayList = filterRelations.map(([relayName, relay]) => {
@@ -506,6 +490,7 @@ export class PothosDrizzleGenerator<
                   getQueryDepth(info) > p.depthLimit
                 )
                   throw new Error("Depth limit exceeded");
+                if (!args.input.length) return [];
                 return (generator.getClient(ctx) as any)
                   .insert(table)
                   .values(args.input.map((v: any) => ({ ...v, ...p.args })))
@@ -570,13 +555,14 @@ export class PothosDrizzleGenerator<
       if (operations.includes("delete")) {
         builder.mutationType({
           fields: (t) => ({
-            [`delete${tableInfo.name}`]: t.field({
-              type: [`${tableInfo.name}_`],
+            [`delete${tableInfo.name}`]: t.drizzleField({
+              type: [modelName],
               nullable: false,
               args: {
                 where: t.arg({ type: inputWhere }),
               },
               resolve: async (
+                _query: any,
                 _parent: any,
                 args: any,
                 ctx: any,

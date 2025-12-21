@@ -1,6 +1,5 @@
 import SchemaBuilder from "@pothos/core";
 import DrizzlePlugin from "@pothos/plugin-drizzle";
-import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { getTableConfig } from "drizzle-orm/pg-core";
 import { GraphQLSchema } from "graphql";
@@ -13,7 +12,6 @@ import PothosDrizzleGeneratorPlugin, {
 } from "pothos-drizzle-generator";
 import { format } from "sql-formatter";
 import { relations } from "./db/relations.js";
-import { posts, users } from "./db/schema.js";
 import type { Context } from "./context.js";
 import type { Context as HonoContext } from "hono";
 
@@ -64,13 +62,13 @@ const builder = new SchemaBuilder<PothosTypes>({
     all: {
       // Maximum query depth
       depthLimit: () => 5,
-      executable: ({ operation, ctx }) => {
-        // Prohibit write operations if the user is not authenticated
-        if (isOperation(OperationMutation, operation) && !ctx.get("user")) {
-          return false;
-        }
-        return true;
-      },
+      // executable: ({ operation, ctx }) => {
+      //   // Prohibit write operations if the user is not authenticated
+      //   if (isOperation(OperationMutation, operation) && !ctx.get("user")) {
+      //     return false;
+      //   }
+      //   return true;
+      // },
       inputFields: () => {
         // Exclude auto-generated fields
         return { exclude: ["createdAt", "updatedAt"] };

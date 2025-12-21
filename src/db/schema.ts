@@ -36,7 +36,7 @@ export const posts = pgTable("Post", {
 // Category テーブル
 export const categories = pgTable("Category", {
   id: uuid().defaultRandom().primaryKey(),
-  name: text().notNull(),
+  name: text().notNull().default(""),
   createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });
