@@ -87,10 +87,7 @@ const builder = new SchemaBuilder<PothosTypes>({
           // When querying, only return published data or the user's own data
           if (isOperation(OperationQuery, operation)) {
             return {
-              OR: [
-                { authorId: { eq: ctx.get("user")?.id } },
-                { published: { eq: true } },
-              ],
+              OR: [{ authorId: ctx.get("user")?.id }, { published: true }],
             };
           }
           // When writing, only allow operations on the user's own data
