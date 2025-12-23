@@ -163,16 +163,3 @@ builder.mutationType({
 });
 
 export const schema: GraphQLSchema = builder.toSchema({ sortSchema: false });
-
-// db.query.posts
-//   .findMany({
-//     with: {
-//       categories: {
-//         columns: {},
-//         extras: {
-//           count: () => sql`count(*)`,
-//         },
-//       },
-//     },
-//   })
-//   .then(console.log);
