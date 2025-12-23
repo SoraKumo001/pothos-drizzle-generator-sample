@@ -85,7 +85,7 @@ declare global {
             modelName: U;
             operation: (typeof OperationBasic)[number];
           }) =>
-            | RelationsFilter<Relations<Types>[U], Relations<Types>>
+            | RelationsFilter<Relations<Types>[any], Relations<Types>>
             | undefined;
           inputFields?: <U extends TableNames<Types>>(params: {
             modelName: U;
@@ -105,9 +105,7 @@ declare global {
             operation: (typeof OperationBasic)[number];
           }) =>
             | PgInsertValue<
-                Relations<Types>[U]["table"] extends PgTable
-                  ? Relations<Types>[U]["table"]
-                  : never,
+                AnyTable<Types> extends PgTable ? AnyTable<Types> : never,
                 true
               >
             | undefined;
