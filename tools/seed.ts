@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { drizzle } from "drizzle-orm/node-postgres";
-import { reset, seed } from "drizzle-seed";
+import { seed } from "drizzle-seed";
 import { relations } from "../src/db/relations.js";
 import * as schema from "../src/db/schema.js";
 
@@ -12,7 +12,6 @@ async function main() {
   }
   const url = new URL(connectionString);
   const searchPath = url.searchParams.get("schema") ?? "public";
-  console.log(searchPath);
   const db = drizzle({
     connection: {
       connectionString,
@@ -23,5 +22,6 @@ async function main() {
   // await reset(db, schema);
   await seed(db, schema);
   db.$client.end();
+  console.log(`seed ${searchPath}`);
 }
 main();
