@@ -10,12 +10,6 @@ Currently under development, so the test program will run.
 
 - Initialization
 
-```sh
-pnpm run dev:docker
-pnpm run drizzle:migrate
-pnpm run drizzle:seed
-```
-
 - Execution
 
 ```sh
