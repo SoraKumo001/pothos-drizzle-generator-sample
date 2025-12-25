@@ -12,6 +12,7 @@ async function main() {
   }
   const url = new URL(connectionString);
   const searchPath = url.searchParams.get("schema") ?? "public";
+  console.log(searchPath);
   const db = drizzle({
     connection: {
       connectionString,
@@ -19,9 +20,8 @@ async function main() {
     },
     relations,
   });
-  await reset(db, schema);
+  // await reset(db, schema);
   await seed(db, schema);
   db.$client.end();
-  console.log(`seed ${searchPath}`);
 }
 main();
