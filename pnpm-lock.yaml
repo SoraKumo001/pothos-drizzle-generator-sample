@@ -45,8 +45,8 @@ importers:
         specifier: ^6.1.3
         version: 6.1.3
       pothos-drizzle-generator:
-        specifier: ^0.1.22
-        version: 0.1.22(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
+        specifier: ^0.1.23
+        version: 0.1.23(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
       sql-formatter:
         specifier: 15.6.12
         version: 15.6.12
@@ -1758,8 +1758,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  pothos-drizzle-generator@0.1.22:
-    resolution: {integrity: sha512-aknyem4D76U8JcvJSCl3TdZSi9P8WxwH8gDAjByWMC2WMYUfPtIEchkJM6cj7xgZeM11DULScNsAyvFiBulIqw==}
+  pothos-drizzle-generator@0.1.23:
+    resolution: {integrity: sha512-rTtENlWRK7FKh6ajg1Uyg8UUowqDzmQIyknXrcwZ1ghLR+Q61UkpnNOqe7g/lvJaXftVwGd7wc9eMSAxolOofQ==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -3751,7 +3751,7 @@ snapshots:
       xtend: 4.0.2
     optional: true
 
-  pothos-drizzle-generator@0.1.22(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3):
+  pothos-drizzle-generator@0.1.23(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3):
     dependencies:
       '@pothos/core': 4.12.0(graphql@16.12.0)
       drizzle-orm: 1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)

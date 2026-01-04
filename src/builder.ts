@@ -7,8 +7,6 @@ import { setCookie } from "hono/cookie";
 import { SignJWT } from "jose";
 import PothosDrizzleGeneratorPlugin, {
   isOperation,
-  OperationMutation,
-  OperationQuery,
 } from "pothos-drizzle-generator";
 import { format } from "sql-formatter";
 import { relations } from "./db/relations.js";
@@ -64,7 +62,7 @@ const builder = new SchemaBuilder<PothosTypes>({
       depthLimit: () => 5,
       executable: ({ operation, ctx }) => {
         // Prohibit write operations if the user is not authenticated
-        if (isOperation(OperationMutation, operation) && !ctx.get("user")) {
+        if (isOperation(["mutation"], operation) && !ctx.get("user")) {
           return false;
         }
         return true;
@@ -85,13 +83,13 @@ const builder = new SchemaBuilder<PothosTypes>({
         },
         where: ({ ctx, operation }) => {
           // When querying, only return published data or the user's own data
-          if (isOperation(OperationQuery, operation)) {
+          if (isOperation(["query"], operation)) {
             return {
               OR: [{ authorId: ctx.get("user")?.id }, { published: true }],
             };
           }
           // When writing, only allow operations on the user's own data
-          if (isOperation(OperationMutation, operation)) {
+          if (isOperation(["mutation"], operation)) {
             return { authorId: ctx.get("user")?.id };
           }
         },
