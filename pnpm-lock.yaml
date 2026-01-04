@@ -45,8 +45,8 @@ importers:
         specifier: ^6.1.3
         version: 6.1.3
       pothos-drizzle-generator:
-        specifier: ^0.1.21
-        version: 0.1.21(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
+        specifier: ^0.1.22
+        version: 0.1.22(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
       sql-formatter:
         specifier: 15.6.12
         version: 15.6.12
@@ -58,11 +58,11 @@ importers:
         specifier: ^25.0.3
         version: 25.0.3
       drizzle-kit:
-        specifier: 1.0.0-beta.6-4414a19
-        version: 1.0.0-beta.6-4414a19
+        specifier: 1.0.0-beta.8-734e789
+        version: 1.0.0-beta.8-734e789
       drizzle-seed:
-        specifier: 1.0.0-beta.6-4414a19
-        version: 1.0.0-beta.6-4414a19(drizzle-orm@1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3))
+        specifier: 1.0.0-beta.8-734e789
+        version: 1.0.0-beta.8-734e789(drizzle-orm@1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3))
       eslint:
         specifier: ^9.39.2
         version: 9.39.2
@@ -162,11 +162,11 @@ packages:
   '@drizzle-team/brocli@0.11.0':
     resolution: {integrity: sha512-hD3pekGiPg0WPCCGAZmusBBJsDqGUR66Y452YgQsZOnkdQ7ViEPKuyP4huUGEZQefp8g34RRodXYmJ2TbCH+tg==}
 
-  '@emnapi/core@1.7.1':
-    resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
+  '@emnapi/core@1.8.0':
+    resolution: {integrity: sha512-ryJnSmj4UhrGLZZPJ6PKVb4wNPAIkW6iyLy+0TRwazd3L1u0wzMe8RfqevAh2HbcSkoeLiSYnOVDOys4JSGYyg==}
 
-  '@emnapi/runtime@1.7.1':
-    resolution: {integrity: sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA==}
+  '@emnapi/runtime@1.8.0':
+    resolution: {integrity: sha512-Z82FDl1ByxqPEPrAYYeTQVlx2FSHPe1qwX465c+96IRS3fTdSYRoJcRxg3g2fEG5I69z1dSEWQlNRRr0/677mg==}
 
   '@emnapi/wasi-threads@1.1.0':
     resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
@@ -958,8 +958,8 @@ packages:
     resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
 
-  drizzle-kit@1.0.0-beta.6-4414a19:
-    resolution: {integrity: sha512-tecGaCXKWVLIkE9f+rucGPovx8ALRFS0lvgUKWoXXLFTLpkmgc/iuN0cpJAalFiJK7bdQemMMRjF9hsCEcmphA==}
+  drizzle-kit@1.0.0-beta.8-734e789:
+    resolution: {integrity: sha512-rwsBKJsdPI38sUA/uOkb7ePpntOL40EWGJk7YmCALl+EJPtzc/kqYbzXSuxGoE9Ff+lo4oEsglSvBB12NvV8Fg==}
     hasBin: true
 
   drizzle-orm@1.0.0-beta.8-734e789:
@@ -1062,114 +1062,8 @@ packages:
       sqlite3:
         optional: true
 
-  drizzle-orm@1.0.0-beta.8-dbc3565:
-    resolution: {integrity: sha512-iKawmJ/euwzhJuIVfmUbj5BrC7/XAEjZxx78y1SWvVf7p7xBxTDLfE7LbrNltr5xhv/5AF6ym5HGtB5wNxaH+w==}
-    peerDependencies:
-      '@aws-sdk/client-rds-data': '>=3'
-      '@cloudflare/workers-types': '>=4'
-      '@effect/sql': ^0.48.5
-      '@effect/sql-pg': ^0.49.7
-      '@electric-sql/pglite': '>=0.2.0'
-      '@libsql/client': '>=0.10.0'
-      '@libsql/client-wasm': '>=0.10.0'
-      '@neondatabase/serverless': '>=0.10.0'
-      '@op-engineering/op-sqlite': '>=2'
-      '@opentelemetry/api': ^1.4.1
-      '@planetscale/database': '>=1.13'
-      '@prisma/client': '*'
-      '@sqlitecloud/drivers': '>=1.0.653'
-      '@tidbcloud/serverless': '*'
-      '@tursodatabase/database': '>=0.2.1'
-      '@tursodatabase/database-common': '>=0.2.1'
-      '@tursodatabase/database-wasm': '>=0.2.1'
-      '@types/better-sqlite3': '*'
-      '@types/mssql': ^9.1.4
-      '@types/pg': '*'
-      '@types/sql.js': '*'
-      '@upstash/redis': '>=1.34.7'
-      '@vercel/postgres': '>=0.8.0'
-      '@xata.io/client': '*'
-      better-sqlite3: '>=9.3.0'
-      bun-types: '*'
-      expo-sqlite: '>=14.0.0'
-      gel: '>=2'
-      mssql: ^11.0.1
-      mysql2: '>=2'
-      pg: '>=8'
-      postgres: '>=3'
-      prisma: '*'
-      sql.js: '>=1'
-      sqlite3: '>=5'
-    peerDependenciesMeta:
-      '@aws-sdk/client-rds-data':
-        optional: true
-      '@cloudflare/workers-types':
-        optional: true
-      '@effect/sql':
-        optional: true
-      '@effect/sql-pg':
-        optional: true
-      '@electric-sql/pglite':
-        optional: true
-      '@libsql/client':
-        optional: true
-      '@libsql/client-wasm':
-        optional: true
-      '@neondatabase/serverless':
-        optional: true
-      '@op-engineering/op-sqlite':
-        optional: true
-      '@opentelemetry/api':
-        optional: true
-      '@planetscale/database':
-        optional: true
-      '@prisma/client':
-        optional: true
-      '@sqlitecloud/drivers':
-        optional: true
-      '@tidbcloud/serverless':
-        optional: true
-      '@tursodatabase/database':
-        optional: true
-      '@tursodatabase/database-common':
-        optional: true
-      '@tursodatabase/database-wasm':
-        optional: true
-      '@types/better-sqlite3':
-        optional: true
-      '@types/pg':
-        optional: true
-      '@types/sql.js':
-        optional: true
-      '@upstash/redis':
-        optional: true
-      '@vercel/postgres':
-        optional: true
-      '@xata.io/client':
-        optional: true
-      better-sqlite3:
-        optional: true
-      bun-types:
-        optional: true
-      expo-sqlite:
-        optional: true
-      gel:
-        optional: true
-      mysql2:
-        optional: true
-      pg:
-        optional: true
-      postgres:
-        optional: true
-      prisma:
-        optional: true
-      sql.js:
-        optional: true
-      sqlite3:
-        optional: true
-
-  drizzle-seed@1.0.0-beta.6-4414a19:
-    resolution: {integrity: sha512-UhLkgePR6uFZZJVV5nHC3jAx12Ms2XT6gYYIL75Z8D9ssRC8ngtDsP6XpSTp9lPtJzrkkNnr3WpYyevlamPEBQ==}
+  drizzle-seed@1.0.0-beta.8-734e789:
+    resolution: {integrity: sha512-MMGQ2LrP9uVG7QNgr6uMI5/IG9pqeMT24FKmBeHgTTSpJu/Kpcn+LMWDC/gBb6uz/4W4tsfZA33uijL6PPUtXw==}
     peerDependencies:
       drizzle-orm: '>=1.0.0-beta.2'
 
@@ -1864,8 +1758,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  pothos-drizzle-generator@0.1.21:
-    resolution: {integrity: sha512-PIzPrH1TrOvsPslfL4cRUnbxaO1njRSWJUzR2LiooCUVcRizRgqgr6ojSmRHBUkkXDr1zQt5LgqACHnV10ppFg==}
+  pothos-drizzle-generator@0.1.22:
+    resolution: {integrity: sha512-aknyem4D76U8JcvJSCl3TdZSi9P8WxwH8gDAjByWMC2WMYUfPtIEchkJM6cj7xgZeM11DULScNsAyvFiBulIqw==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -2053,8 +1947,8 @@ packages:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
     engines: {node: '>=12.0.0'}
 
-  ts-api-utils@2.3.0:
-    resolution: {integrity: sha512-6eg3Y9SF7SsAvGzRHQvvc1skDAhwI4YQ32ui1scxD1Ccr0G5qIIbUBT3pFTKX8kmWIQClHobtUdNuaBgwdfdWg==}
+  ts-api-utils@2.4.0:
+    resolution: {integrity: sha512-3TaVTaAv2gTiMB35i3FiGJaRfwb3Pyn/j3m/bfAvGe8FB7CF6u+LMYqYlDh7reQf7UNvoTvdfAqHGmPGOSsPmA==}
     engines: {node: '>=18.12'}
     peerDependencies:
       typescript: '>=4.8.4'
@@ -2310,13 +2204,13 @@ snapshots:
 
   '@drizzle-team/brocli@0.11.0': {}
 
-  '@emnapi/core@1.7.1':
+  '@emnapi/core@1.8.0':
     dependencies:
       '@emnapi/wasi-threads': 1.1.0
       tslib: 2.8.1
     optional: true
 
-  '@emnapi/runtime@1.7.1':
+  '@emnapi/runtime@1.8.0':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -2556,8 +2450,8 @@ snapshots:
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
-      '@emnapi/core': 1.7.1
-      '@emnapi/runtime': 1.7.1
+      '@emnapi/core': 1.8.0
+      '@emnapi/runtime': 1.8.0
       '@tybys/wasm-util': 0.10.1
     optional: true
 
@@ -2569,12 +2463,6 @@ snapshots:
     dependencies:
       '@pothos/core': 4.12.0(graphql@16.12.0)
       drizzle-orm: 1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
-      graphql: 16.12.0
-
-  '@pothos/plugin-drizzle@0.16.1(@pothos/core@4.12.0(graphql@16.12.0))(drizzle-orm@1.0.0-beta.8-dbc3565(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3))(graphql@16.12.0)':
-    dependencies:
-      '@pothos/core': 4.12.0(graphql@16.12.0)
-      drizzle-orm: 1.0.0-beta.8-dbc3565(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
       graphql: 16.12.0
 
   '@rtsao/scc@1.1.0': {}
@@ -2634,7 +2522,7 @@ snapshots:
       eslint: 9.39.2
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.3.0(typescript@5.9.3)
+      ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -2676,7 +2564,7 @@ snapshots:
       '@typescript-eslint/utils': 8.51.0(eslint@9.39.2)(typescript@5.9.3)
       debug: 4.4.3
       eslint: 9.39.2
-      ts-api-utils: 2.3.0(typescript@5.9.3)
+      ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -2693,7 +2581,7 @@ snapshots:
       minimatch: 9.0.5
       semver: 7.7.3
       tinyglobby: 0.2.15
-      ts-api-utils: 2.3.0(typescript@5.9.3)
+      ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
@@ -2996,7 +2884,7 @@ snapshots:
 
   dotenv@17.2.3: {}
 
-  drizzle-kit@1.0.0-beta.6-4414a19:
+  drizzle-kit@1.0.0-beta.8-734e789:
     dependencies:
       '@drizzle-team/brocli': 0.11.0
       '@js-temporal/polyfill': 0.5.1
@@ -3013,15 +2901,7 @@ snapshots:
       '@types/pg': 8.16.0
       pg: 8.16.3
 
-  drizzle-orm@1.0.0-beta.8-dbc3565(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3):
-    dependencies:
-      '@types/mssql': 9.1.8
-      mssql: 11.0.1
-    optionalDependencies:
-      '@types/pg': 8.16.0
-      pg: 8.16.3
-
-  drizzle-seed@1.0.0-beta.6-4414a19(drizzle-orm@1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)):
+  drizzle-seed@1.0.0-beta.8-734e789(drizzle-orm@1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)):
     dependencies:
       drizzle-orm: 1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
       pure-rand: 6.1.0
@@ -3871,18 +3751,15 @@ snapshots:
       xtend: 4.0.2
     optional: true
 
-  pothos-drizzle-generator@0.1.21(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3):
+  pothos-drizzle-generator@0.1.22(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3):
     dependencies:
       '@pothos/core': 4.12.0(graphql@16.12.0)
-      '@pothos/plugin-drizzle': 0.16.1(@pothos/core@4.12.0(graphql@16.12.0))(drizzle-orm@1.0.0-beta.8-dbc3565(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3))(graphql@16.12.0)
-      drizzle-orm: 1.0.0-beta.8-dbc3565(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
+      drizzle-orm: 1.0.0-beta.8-734e789(@types/mssql@9.1.8)(@types/pg@8.16.0)(mssql@11.0.1)(pg@8.16.3)
       graphql: 16.12.0
       graphql-scalars: 1.25.0(graphql@16.12.0)
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
       - '@cloudflare/workers-types'
-      - '@effect/sql'
-      - '@effect/sql-pg'
       - '@electric-sql/pglite'
       - '@libsql/client'
       - '@libsql/client-wasm'
@@ -4148,7 +4025,7 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
 
-  ts-api-utils@2.3.0(typescript@5.9.3):
+  ts-api-utils@2.4.0(typescript@5.9.3):
     dependencies:
       typescript: 5.9.3
 
