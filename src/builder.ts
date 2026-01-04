@@ -29,10 +29,18 @@ const db = drizzle({
   logger: {
     logQuery: (query, params) => {
       console.info(
-        "===========================\n",
-        format(query, { language: "postgresql" }),
-        "\n--\n",
-        params
+        `--\n${format(query, {
+          language: "postgresql",
+          keywordCase: "upper",
+          expressionWidth: 100,
+          params: Object.fromEntries(
+            params.map((value, index) => [
+              index + 1,
+              (typeof value === "string" ? `'${value}'` : String(value)) +
+                ` /*$${index + 1}*/`,
+            ])
+          ),
+        })};`
       );
     },
   },

@@ -8,10 +8,8 @@ import {
   primaryKey,
 } from "drizzle-orm/pg-core";
 
-// Enum 定義
 export const roleEnum = pgEnum("Role", ["ADMIN", "USER"]);
 
-// User テーブル
 export const users = pgTable("User", {
   id: uuid().defaultRandom().primaryKey(),
   email: text().notNull().unique(),
@@ -21,7 +19,6 @@ export const users = pgTable("User", {
   updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });
 
-// Post テーブル
 export const posts = pgTable("Post", {
   id: uuid().defaultRandom().primaryKey(),
   published: boolean().notNull().default(false),
@@ -33,7 +30,6 @@ export const posts = pgTable("Post", {
   publishedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });
 
-// Category テーブル
 export const categories = pgTable("Category", {
   id: uuid().defaultRandom().primaryKey(),
   name: text().notNull(),
@@ -41,7 +37,6 @@ export const categories = pgTable("Category", {
   updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });
 
-// 中間テーブル (Post-Category 多対多)
 export const postsToCategories = pgTable(
   "PostToCategory",
   {

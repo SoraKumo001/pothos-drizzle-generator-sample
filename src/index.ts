@@ -28,6 +28,8 @@ app.get("/", (c) => {
     })
   );
 });
+
+// GraphQL endpoint
 app.post("/", async (c, next) => {
   // Get the user from the token
   const cookies = getCookie(c);
