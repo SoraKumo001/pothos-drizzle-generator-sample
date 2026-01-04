@@ -1,4 +1,4 @@
-# pothos-drizzle-generator
+# pothos-drizzle-generator-sample
 
 A Pothos plugin that automatically generates GraphQL schemas based on Drizzle schema information.
 
