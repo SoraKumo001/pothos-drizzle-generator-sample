@@ -1,0 +1,306 @@
+"""
+The `BigInt` scalar type represents non-fractional signed whole numeric values.
+"""
+scalar BigInt
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""The `Byte` scalar type represents byte value as a Buffer"""
+scalar Bytes
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar Json
+
+enum OrderBy {
+  Asc
+  Desc
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+input CategoryWhere {
+  AND: [CategoryWhere!]
+  OR: [CategoryWhere!]
+  NOT: CategoryWhere
+  id: StringInputOperator
+  name: StringInputOperator
+  createdAt: DateTimeInputOperator
+  updatedAt: DateTimeInputOperator
+  posts: PostWhere
+}
+
+input CategoryOrderBy {
+  id: OrderBy
+  name: OrderBy
+  createdAt: OrderBy
+  updatedAt: OrderBy
+}
+
+input CategoryCreate {
+  id: String
+  name: String!
+  posts: Category_posts
+}
+
+input CategoryUpdate {
+  id: String
+  name: String
+  posts: Category_posts
+}
+
+input PostWhere {
+  AND: [PostWhere!]
+  OR: [PostWhere!]
+  NOT: PostWhere
+  id: StringInputOperator
+  published: BooleanInputOperator
+  title: StringInputOperator
+  content: StringInputOperator
+  authorId: StringInputOperator
+  createdAt: DateTimeInputOperator
+  updatedAt: DateTimeInputOperator
+  publishedAt: DateTimeInputOperator
+  author: UserWhere
+  categories: CategoryWhere
+}
+
+input PostOrderBy {
+  id: OrderBy
+  published: OrderBy
+  title: OrderBy
+  content: OrderBy
+  authorId: OrderBy
+  createdAt: OrderBy
+  updatedAt: OrderBy
+  publishedAt: OrderBy
+}
+
+input PostCreate {
+  id: String
+  published: Boolean!
+  title: String
+  content: String!
+  authorId: String
+  publishedAt: DateTime
+  categories: Post_categories
+}
+
+input PostUpdate {
+  id: String
+  published: Boolean
+  title: String
+  content: String
+  authorId: String
+  publishedAt: DateTime
+  categories: Post_categories
+}
+
+input UserWhere {
+  AND: [UserWhere!]
+  OR: [UserWhere!]
+  NOT: UserWhere
+  id: StringInputOperator
+  email: StringInputOperator
+  name: StringInputOperator
+  roles: ArrayRoleInputOperator
+  createdAt: DateTimeInputOperator
+  updatedAt: DateTimeInputOperator
+  posts: PostWhere
+}
+
+input UserOrderBy {
+  id: OrderBy
+  email: OrderBy
+  name: OrderBy
+  roles: OrderBy
+  createdAt: OrderBy
+  updatedAt: OrderBy
+}
+
+input UserCreate {
+  id: String
+  email: String!
+  name: String
+  roles: [Role!]
+}
+
+input UserUpdate {
+  id: String
+  email: String
+  name: String
+  roles: [Role!]
+}
+
+input StringInputOperator {
+  eq: String
+  ne: String
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  like: String
+  notLike: String
+  ilike: String
+  notIlike: String
+  isNull: Boolean
+  isNotNull: Boolean
+  in: [String!]
+  notIn: [String!]
+  arrayContained: [String!]
+  arrayOverlaps: [String!]
+  arrayContains: [String!]
+}
+
+input DateTimeInputOperator {
+  eq: DateTime
+  ne: DateTime
+  gt: DateTime
+  gte: DateTime
+  lt: DateTime
+  lte: DateTime
+  like: DateTime
+  notLike: DateTime
+  ilike: DateTime
+  notIlike: DateTime
+  isNull: Boolean
+  isNotNull: Boolean
+  in: [DateTime!]
+  notIn: [DateTime!]
+  arrayContained: [DateTime!]
+  arrayOverlaps: [DateTime!]
+  arrayContains: [DateTime!]
+}
+
+input Category_postsSet {
+  id: String!
+}
+
+input Category_posts {
+  set: [Category_postsSet!]
+}
+
+input BooleanInputOperator {
+  eq: Boolean
+  ne: Boolean
+  gt: Boolean
+  gte: Boolean
+  lt: Boolean
+  lte: Boolean
+  like: Boolean
+  notLike: Boolean
+  ilike: Boolean
+  notIlike: Boolean
+  isNull: Boolean
+  isNotNull: Boolean
+  in: [Boolean!]
+  notIn: [Boolean!]
+  arrayContained: [Boolean!]
+  arrayOverlaps: [Boolean!]
+  arrayContains: [Boolean!]
+}
+
+input Post_categoriesSet {
+  id: String!
+}
+
+input Post_categories {
+  set: [Post_categoriesSet!]
+}
+
+input ArrayRoleInputOperator {
+  eq: [Role!]
+  ne: [Role!]
+  gt: [Role!]
+  gte: [Role!]
+  lt: [Role!]
+  lte: [Role!]
+  like: [Role!]
+  notLike: [Role!]
+  ilike: [Role!]
+  notIlike: [Role!]
+  isNull: Boolean
+  isNotNull: Boolean
+  in: [[Role!]!]
+  notIn: [[Role!]!]
+  arrayContained: [[Role!]!]
+  arrayOverlaps: [[Role!]!]
+  arrayContains: [[Role!]!]
+}
+
+type Category {
+  postsCount(where: PostWhere): Int!
+  posts(offset: Int, limit: Int, where: PostWhere, orderBy: [PostOrderBy!]): [Post!]!
+  id: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Post {
+  authorCount(where: UserWhere): Int!
+  categoriesCount(where: CategoryWhere): Int!
+  author(offset: Int, limit: Int, where: UserWhere, orderBy: [UserOrderBy!]): User
+  categories(offset: Int, limit: Int, where: CategoryWhere, orderBy: [CategoryOrderBy!]): [Category!]!
+  id: String!
+  published: Boolean!
+  title: String!
+  content: String!
+  authorId: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  publishedAt: DateTime!
+}
+
+type User {
+  postsCount(where: PostWhere): Int!
+  posts(offset: Int, limit: Int, where: PostWhere, orderBy: [PostOrderBy!]): [Post!]!
+  id: String!
+  email: String!
+  name: String!
+  roles: [Role!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Mutation {
+  me: User
+  signIn(email: String): User
+  signOut: Boolean
+  createOneCategory(input: CategoryCreate!): Category!
+  createManyCategory(input: [CategoryCreate!]!): [Category!]!
+  updateCategory(input: CategoryUpdate!, where: CategoryWhere): [Category!]!
+  deleteCategory(where: CategoryWhere): [Category!]!
+  createOnePost(input: PostCreate!): Post!
+  createManyPost(input: [PostCreate!]!): [Post!]!
+  updatePost(input: PostUpdate!, where: PostWhere): [Post!]!
+  deletePost(where: PostWhere): [Post!]!
+  createOneUser(input: UserCreate!): User!
+  createManyUser(input: [UserCreate!]!): [User!]!
+  updateUser(input: UserUpdate!, where: UserWhere): [User!]!
+  deleteUser(where: UserWhere): [User!]!
+}
+
+type Query {
+  findManyCategory(offset: Int, limit: Int, where: CategoryWhere, orderBy: [CategoryOrderBy!]): [Category!]!
+  findFirstCategory(offset: Int, where: CategoryWhere, orderBy: [CategoryOrderBy!]): Category
+  countCategory(limit: Int, where: CategoryWhere): Int!
+  findManyPost(offset: Int, limit: Int, where: PostWhere, orderBy: [PostOrderBy!]): [Post!]!
+  findFirstPost(offset: Int, where: PostWhere, orderBy: [PostOrderBy!]): Post
+  countPost(limit: Int, where: PostWhere): Int!
+  findManyUser(offset: Int, limit: Int, where: UserWhere, orderBy: [UserOrderBy!]): [User!]!
+  findFirstUser(offset: Int, where: UserWhere, orderBy: [UserOrderBy!]): User
+  countUser(limit: Int, where: UserWhere): Int!
+}
