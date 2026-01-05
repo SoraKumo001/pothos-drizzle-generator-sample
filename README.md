@@ -1,127 +1,599 @@
-# Pothos Drizzle Generator Sample
+# Pothos Drizzle Generator Sample - Detailed Explanation
 
-[![npm version](https://badge.fury.io/js/pothos-drizzle-generator.svg)](https://badge.fury.io/js/pothos-drizzle-generator)
+This document provides a detailed explanation of a sample project that builds a GraphQL API using `pothos-drizzle-generator`.
 
-A Pothos plugin that automatically generates GraphQL schemas based on Drizzle schema information.
-This sample demonstrates how to build a GraphQL API with Hono, Pothos, and Drizzle ORM using the [`pothos-drizzle-generator`](https://www.npmjs.com/package/pothos-drizzle-generator) plugin.
+## 1. Project Overview
 
-![](./document/image.png)
+This project is a sample that combines Hono, Pothos, and Drizzle ORM, utilizing the `pothos-drizzle-generator` plugin to automatically generate a GraphQL API.
+The main objective is to demonstrate how to efficiently generate GraphQL types, queries, and mutations from a database schema defined with Drizzle ORM.
 
-## Table of Contents
+[![pothos-drizzle-generator-sample](./document/image.png)](https://github.com/SoraKumo001/pothos-drizzle-generator-sample)
 
-- [Key Features](#key-features)
-- [Project Structure](#project-structure)
-- [Setup and Development](#setup-and-development)
-  - [Prerequisites](#prerequisites)
-  - [Initialization](#initialization)
-  - [Execution](#execution)
-- [Available Scripts](#available-scripts)
-- [How it Works](#how-it-works)
-  - [1. Schema Generation (`src/builder.ts`)](#1-schema-generation-srcbuilder-ts)
-  - [2. Security and Filtering](#2-security-and-filtering)
-  - [3. Authentication Flow (`src/index.ts`)](#3-authentication-flow-srcindex-ts)
-- [API Operations](#api-operations)
+### Key Features
 
-## Key Features
+- **Automatic Schema Generation**: `pothos-drizzle-generator` analyzes the Drizzle schema and automatically generates GraphQL CRUD operations.
+- **Role-Based Access Control (RBAC)**: Implements flexible access control at the schema level using options like `executable` and `where`.
+- **JWT Authentication**: Provides secure sign-in/sign-out functionality using JWT (JSON Web Token) stored in HTTP-only Cookies.
+- **Drizzle ORM Integration**: Seamlessly integrates Pothos and Drizzle ORM to realize type-safe database operations.
+- **Interactive API Explorer**: Includes Apollo GraphQL Explorer, allowing you to test the GraphQL API directly from your browser.
 
--   **Automatic Schema Generation**: Leverages `pothos-drizzle-generator` to generate GraphQL types, queries, and mutations directly from Drizzle ORM schemas.
--   **Role-Based Access Control (RBAC)**: Implements security at the schema level using `executable` and `where` configurations.
--   **JWT Authentication**: Secure sign-in/sign-out functionality using JSON Web Tokens (JWT) stored in HTTP-only cookies.
--   **Drizzle ORM Integration**: Seamless integration between Pothos and Drizzle for type-safe database operations.
--   **Interactive API Explorer**: Includes Apollo GraphQL Explorer for testing GraphQL operations.
+## 2. Tech Stack
 
-## Project Structure
+The main libraries and tools used in this project are as follows:
 
--   `src/index.ts`: The application's entry point, setting up the Hono server, authentication middleware, and GraphQL endpoints.
--   `src/builder.ts`: Configures the Pothos Schema Builder, including the Drizzle plugin and the schema generator. This file also defines global and model-specific security rules.
--   `src/db/`: Contains Drizzle schema and relation definitions.
--   `src/context.ts`: Defines the application context, including user information.
+| Category          | Library/Tool               | Version (from package.json) | Overview                                                                                           |
+| ----------------- | -------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Web Framework** | `hono`                     | `^4.11.3`                   | A fast and lightweight Web framework. Acts as the server entry point.                              |
+| **GraphQL**       | `@pothos/core`             | `^4.12.0`                   | A library for building type-safe GraphQL schemas.                                                  |
+|                   | `graphql`                  | `^16.12.0`                  | The official GraphQL implementation.                                                               |
+|                   | `@hono/graphql-server`     | `^0.7.0`                    | Middleware for hosting a GraphQL server with Hono.                                                 |
+|                   | `apollo-explorer`          | `^1.1.3`                    | An interactive GraphQL IDE.                                                                        |
+| **ORM**           | `drizzle-orm`              | `1.0.0-beta.8-734e789`      | A lightweight ORM optimized for TypeScript.                                                        |
+|                   | `drizzle-kit`              | `1.0.0-beta.8-734e789`      | A tool for managing database migrations.                                                           |
+| **Pothos Plugin** | `@pothos/plugin-drizzle`   | `0.16.1`                    | The official plugin for integrating Pothos and Drizzle ORM.                                        |
+|                   | `pothos-drizzle-generator` | `^0.1.24`                   | The core plugin of this project that automatically generates GraphQL schemas from Drizzle schemas. |
+| **Database**      | `PostgreSQL`               | -                           | A relational database running in Docker.                                                           |
+| **Runtime**       | `tsx`                      | `^4.21.0`                   | A tool for directly executing TypeScript files.                                                    |
+| **Auth**          | `jose`                     | `^6.1.3`                    | A library for generating and verifying JWTs.                                                       |
 
-## Setup and Development
+## 3. Project Structure
 
-### Prerequisites
+The roles of the main files and directories are as follows:
 
--   Node.js
--   Docker (for PostgreSQL)
--   pnpm
+```
+.
+├── src
+│   ├── index.ts            # Hono server settings, auth middleware, GraphQL endpoint
+│   ├── builder.ts          # Pothos Schema Builder settings, pothos-drizzle-generator definition
+│   ├── context.ts          # Application context type definition (user info, etc.)
+│   └── db
+│       ├── schema.ts       # Drizzle ORM table schema definitions
+│       └── relations.ts    # Relation definitions between tables
+├── drizzle                 # Migration files generated by Drizzle Kit
+├── tools
+│   ├── reset.ts            # Script to reset the database
+│   └── seed.ts             # Script to populate initial data
+├── drizzle.config.ts       # Drizzle Kit configuration file
+├── package.json            # Project dependencies and script definitions
+└── tsconfig.json           # TypeScript compiler settings
+```
 
-### Initialization
+## 4. Setup and Development
+
+### 4.1. Prerequisites
+
+- Node.js
+- Docker (Required to run PostgreSQL)
+- pnpm (Package manager)
+
+### 4.2. Initial Setup
 
 1.  **Install Dependencies**:
-
     ```sh
     pnpm install
     ```
-
-2.  **Start Database**:
-
+2.  **Configure Environment Variables**:
+    Create a `.env` file in the project root with the following content:
+    ```
+    DATABASE_URL="postgresql://user:password@localhost:5432/postgres?schema=public"
+    SECRET="your-super-secret-key"
+    ```
+3.  **Start Database**:
     ```sh
     pnpm run dev:docker
     ```
-
-3.  **Run Migrations**:
-
+4.  **Run Migrations**:
     ```sh
     pnpm run drizzle:migrate
     ```
-
-4.  **Seed Data**:
-
+5.  **Seed Initial Data**:
     ```sh
     pnpm run drizzle:seed
     ```
 
-### Execution
+### 4.3. Start Development Server
 
-Start the development server:
+Start the development server with the following command:
 
 ```sh
 pnpm run dev
 ```
 
-The server will be available at `http://localhost:3000`. You can access the Apollo Explorer at this URL to interact with the API.
+The server will be available at `http://localhost:3000`. Accessing this URL will open the Apollo Explorer, allowing you to interactively manipulate the API.
 
-## Available Scripts
+### 4.4. Available Scripts
 
--   `dev`: Starts the development server.
--   `dev:docker`: Starts the PostgreSQL database using Docker Compose.
--   `drizzle:generate`: Generates Drizzle migration files.
--   `drizzle:migrate`: Executes database migrations.
--   `drizzle:seed`: Seeds the database with initial data.
--   `drizzle:studio`: Launches Drizzle Studio.
+Major scripts defined in `package.json`:
 
-## How it Works
+- `dev`: Starts the development server. Watches for file changes and restarts automatically.
+- `dev:docker`: Starts the PostgreSQL database using Docker Compose.
+- `drizzle:generate`: Generates migration files based on Drizzle schema changes.
+- `drizzle:migrate`: Executes migration files to update the database schema.
+- `drizzle:reset`: Resets the database and re-runs migrations and seeding.
+- `drizzle:seed`: Executes `tools/seed.ts` to populate initial data into the database.
 
-### 1. Schema Generation (`src/builder.ts`)
+## 5. How It Works
 
-The `pothos-drizzle-generator` plugin is configured within the `SchemaBuilder`. It automatically maps Drizzle tables to GraphQL types.
+### 5.1. Database Schema and Relations (`src/db/schema.ts` and `relations.ts`)
+
+Data model definition is the core of Drizzle ORM. In this project, `src/db/schema.ts` defines the table structure, and `src/db/relations.ts` defines the relationships between tables.
+
+#### 5.1.1. Table Schema Definition (`src/db/schema.ts`)
+
+This file defines the tables, columns, and types within the PostgreSQL database.
 
 ```typescript
+// src/db/schema.ts
+import {
+  pgTable,
+  uuid,
+  text,
+  boolean,
+  timestamp,
+  pgEnum,
+  primaryKey,
+} from "drizzle-orm/pg-core";
+
+// Enum defining user roles
+export const roleEnum = pgEnum("Role", ["ADMIN", "USER"]);
+
+// 'User' table
+export const users = pgTable("User", {
+  id: uuid().defaultRandom().primaryKey(),
+  email: text().notNull().unique(),
+  name: text().notNull().default("User"),
+  roles: roleEnum().array().default(["USER"]).notNull(),
+  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+});
+
+// 'Post' table
+export const posts = pgTable("Post", {
+  id: uuid().defaultRandom().primaryKey(),
+  published: boolean().notNull().default(false),
+  title: text().notNull().default("New Post"),
+  content: text().notNull().default(""),
+  authorId: uuid().references(() => users.id, { onDelete: "cascade" }), // Foreign Key
+  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+  publishedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+});
+
+// 'Category' table
+export const categories = pgTable("Category", {
+  id: uuid().defaultRandom().primaryKey(),
+  name: text().notNull(),
+  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
+});
+
+// 'PostToCategory' intermediate table (Many-to-Many)
+export const postsToCategories = pgTable(
+  "PostToCategory",
+  {
+    postId: uuid()
+      .notNull()
+      .references(() => posts.id, { onDelete: "cascade" }),
+    categoryId: uuid()
+      .notNull()
+      .references(() => categories.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.postId, t.categoryId] })] // Composite Primary Key
+);
+```
+
+- **`users`**: Stores user information. The `roles` column is an array of `roleEnum` defined with `pgEnum`, allowing roles of `ADMIN` or `USER`.
+- **`posts`**: Stores post article information. The `authorId` column is a foreign key referencing the `id` of the `users` table, configured with `onDelete: "cascade"` so that related posts are deleted when a user is deleted.
+- **`categories`**: Stores category information to be attached to posts.
+- **`postsToCategories`**: An intermediate table to realize the Many-to-Many relationship between `posts` and `categories`. A composite primary key is set with the combination of `postId` and `categoryId`.
+
+#### 5.1.2. Relation Definition (`src/db/relations.ts`)
+
+Based on the table structure defined in `schema.ts`, this informs Drizzle of the relationships between tables. This makes it easy to retrieve related data, like `db.query.users.findFirst({ with: { posts: true } })`.
+
+```typescript
+// src/db/relations.ts
+import { defineRelations } from "drizzle-orm";
+import * as schema from "./schema.js";
+
+export const relations = defineRelations(schema, (r) => ({
+  // User has multiple Posts (One-to-Many)
+  users: {
+    posts: r.many.posts({
+      from: r.users.id,
+      to: r.posts.authorId,
+    }),
+  },
+  // Post has one User (author) and multiple Categories
+  posts: {
+    author: r.one.users({
+      from: r.posts.authorId,
+      to: r.users.id,
+    }),
+    categories: r.many.categories({
+      from: r.posts.id.through(r.postsToCategories.postId),
+      to: r.categories.id.through(r.postsToCategories.categoryId),
+    }),
+  },
+  // Category has multiple Posts
+  categories: {
+    posts: r.many.posts(),
+  },
+  // Intermediate table relation definitions
+  postsToCategories: {
+    post: r.one.posts({
+      from: r.postsToCategories.postId,
+      to: r.posts.id,
+    }),
+    category: r.one.categories({
+      from: r.postsToCategories.categoryId,
+      to: r.categories.id,
+    }),
+  },
+}));
+```
+
+- **users to posts**: `users` have a One-to-Many relationship with `posts`. Defined with `r.many.posts`.
+- **posts to users**: `posts` belong to one `author` (`users`) in a Many-to-One relationship. Defined with `r.one.users`.
+- **posts to categories**: `posts` and `categories` have a Many-to-Many relationship. The `.through()` method is used because they are associated via the intermediate table `postsToCategories`.
+- **postsToCategories**: The intermediate table itself has a One-to-One relationship with both the `posts` table and the `categories` table.
+
+These relation definitions are essential for `pothos-drizzle-generator` to understand the relationships between fields and correctly resolve nested queries (e.g., `query { findManyPosts { author { name } } }`) when generating the GraphQL schema.
+
+#### 5.1.3. ER Diagram
+
+The Entity-Relationship (ER) diagram of the database based on `schema.ts` and `relations.ts` is as follows:
+
+```mermaid
+erDiagram
+    User ||--o{ Post : "author"
+
+    Post ||--o{ PostToCategory : "categories"
+
+    Category ||--o{ PostToCategory : "posts"
+
+    User {
+        uuid id PK
+        text email UK
+        text name
+        Role_array roles "Enum: ADMIN, USER"
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    Post {
+        uuid id PK
+        boolean published
+        text title
+        text content
+        uuid authorId FK
+        timestamp createdAt
+        timestamp updatedAt
+        timestamp publishedAt
+    }
+
+    Category {
+        uuid id PK
+        text name
+        timestamp createdAt
+        timestamp updatedAt
+    }
+
+    PostToCategory {
+        uuid postId FK "PK"
+        uuid categoryId FK "PK"
+    }
+```
+
+### 5.2. Automatic GraphQL Schema Generation (`src/builder.ts`)
+
+This is the heart of the project. It uses `PothosDrizzleGeneratorPlugin` to automatically generate the GraphQL schema.
+
+```typescript
+// src/builder.ts
+
 const builder = new SchemaBuilder<PothosTypes>({
   plugins: [DrizzlePlugin, PothosDrizzleGeneratorPlugin],
   pothosDrizzleGenerator: {
-    // Configuration for automatic generation
+    // ... settings
   },
 });
 ```
 
-### 2. Security and Filtering
+#### 5.2.1. Security and Filtering
 
-Security is implemented globally and per model within `src/builder.ts`:
+Detailed security rules are defined globally and on a per-model basis through the `pothosDrizzleGenerator` settings.
 
--   **Global Execution Control**: Prevents unauthenticated users from performing any mutations.
--   **Row-Level Security**: Uses the `where` option to filter data based on the authenticated user. For example, users can only see their own private posts or any public posts.
--   **Auto-Injection**: The `inputData` option automatically sets fields like `authorId` based on the current user session during creation.
+- **Global Execution Control**:
+  The `all.executable` option denies all `mutation` operations by unauthenticated users. This protects the API's write operations.
 
-### 3. Authentication Flow (`src/index.ts`)
+  ```typescript
+  executable: ({ operation, ctx }) => {
+    if (isOperation(["mutation"], operation) && !ctx.get("user")) {
+      return false;
+    }
+    return true;
+  },
+  ```
 
--   **Middleware**: `authMiddleware` extracts the JWT from the `auth-token` cookie, verifies it using a secret key, and stores the user object in Hono's context.
--   **Mutations**: The `signIn` mutation verifies user credentials (email in this sample), generates a JWT, and sets it in a secure cookie. The `signOut` mutation clears this cookie.
+- **Row-Level Security**:
+  Uses the `where` option on the `posts` model to filter data visible to the user.
 
-## API Operations
+  - **Query**: Users can only retrieve "published posts" or "posts they created".
+  - **Mutation**: Users can only update or delete "posts they created".
 
-The following operations are automatically generated for each model (unless excluded):
+  ```typescript
+  where: ({ ctx, operation }) => {
+    if (isOperation(["query"], operation)) {
+      return {
+        OR: [{ authorId: ctx.get("user")?.id }, { published: true }],
+      };
+    }
+    if (isOperation(["mutation"], operation)) {
+      return { authorId: ctx.get("user")?.id };
+    }
+  },
+  ```
 
--   **Queries**: `findMany`, `findFirst`, `count`
--   **Mutations**: `create`, `update`, `delete`
--   **Supported Filters**: `AND`, `OR`, `NOT`, `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in`, etc.
+- **Automatic Input Data Injection**:
+  Uses the `inputData` option on the `posts` model to automatically complete the `authorId` field with the currently authenticated user's ID during a `create` operation.
+  ```typescript
+  inputData: ({ ctx }) => {
+    const user = ctx.get("user");
+    if (!user) throw new Error("No permission");
+    return { authorId: user.id };
+  },
+  ```
+
+### 5.3. Implementing GraphQL Server with Hono (`src/index.ts`)
+
+Hono is a fast, lightweight, and Web Standards-based web framework. This project uses Hono as the host for the GraphQL server.
+
+#### 5.3.1. GraphQL Middleware
+
+By using the `@hono/graphql-server` package, you can easily run a GraphQL server on Hono.
+In `src/index.ts`, the `graphqlServer` middleware is applied to POST requests.
+
+```typescript
+app.post("/", authMiddleware, (c, next) => {
+  return graphqlServer({
+    schema,
+  })(c, next);
+});
+```
+
+#### 5.3.2. Context Storage
+
+By using Hono's `contextStorage` middleware, context information (such as authenticated users) can be accessed from anywhere within the request scope.
+This is useful for retrieving user information within GraphQL resolvers.
+
+```typescript
+import { contextStorage } from "hono/context-storage";
+
+app.use(contextStorage());
+```
+
+#### 5.3.3. Apollo Explorer
+
+To improve the developer experience, `apollo-explorer` is set to be displayed for GET requests.
+This allows you to intuitively create and execute queries and check API behavior directly in the browser.
+
+```typescript
+app.get("/", (c) => {
+  return c.html(
+    explorer({
+      initialState: {
+        document: generate(schema, QUERY_GENERATION_DEPTH),
+      },
+      endpointUrl: "/",
+      introspectionInterval: INTROSPECTION_INTERVAL,
+    })
+  );
+});
+```
+
+### 5.4. Authentication Flow (`src/index.ts` and `src/builder.ts`)
+
+Authentication is implemented using JWT and Cookies.
+
+#### 5.4.1. Authentication Middleware (`src/index.ts`)
+
+`authMiddleware` runs before every request to the GraphQL endpoint. It extracts the JWT from the HTTP-only Cookie (`auth-token`) and validates it using the `jose` library.
+
+```typescript
+// src/index.ts
+
+const authMiddleware = async (
+  c: HonoContext<Context>,
+  next: () => Promise<void>
+) => {
+  const cookies = getCookie(c);
+  const token = cookies[AUTH_TOKEN_COOKIE] ?? "";
+
+  // JWT verification and user info retrieval
+  // If verification fails (token expired, tampered, etc.), user becomes undefined
+  const user = await jwtVerify(token, new TextEncoder().encode(SECRET))
+    .then(
+      (data) => data.payload.user as typeof relations.users.table.$inferSelect
+    )
+    .catch(() => undefined);
+
+  // Saving user info to context
+  // This makes it accessible as c.get('user') or context.get('user') in subsequent processing
+  const context = getContext<Context>();
+  context.set("user", user);
+
+  return next();
+};
+```
+
+This middleware ensures that if validation succeeds, user information is stored in the Hono context and becomes available within Pothos builders and resolvers.
+
+#### 5.4.2. Auth Mutations (`src/builder.ts`)
+
+Separately from the auto-generated CRUD operations, three manual authentication mutations are defined.
+
+- `signIn`: Accepts an email address and authenticates the user. If successful, generates a JWT and sets it in a secure HTTP-only Cookie named `auth-token`.
+- `signOut`: Clears the `auth-token` Cookie and signs the user out.
+- `me`: Returns the information of the currently authenticated user.
+
+## 6. API Operations
+
+`pothos-drizzle-generator` automatically generates the following GraphQL operations for each model (`users`, `posts`, `categories`):
+
+- **Query**:
+
+  - `findMany*`: Retrieves multiple records. (e.g., `findManyUsers`)
+  - `findFirst*`: Retrieves the first record matching the conditions. (e.g., `findFirstPost`)
+  - `count*`: Retrieves the number of records matching the conditions. (e.g., `countPosts`)
+
+- **Mutation**:
+
+  - `create*`: Creates a new record. (e.g., `createPost`)
+  - `update*`: Updates existing records. (e.g., `updatePost`)
+  - `delete*`: Deletes records. (e.g., `deletePost`)
+
+- **Supported Filters**:
+  A rich set of filter conditions are available in queries, such as `AND`, `OR`, `NOT`, `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in`, etc.
+
+### 6.1. Query Examples
+
+#### Retrieve Posts (Filtering and Relations)
+
+Retrieve published posts, sorted by creation date in descending order. Also retrieve the author's name.
+
+```graphql
+query {
+  findManyPost(
+    where: { published: { eq: true } }
+    orderBy: { createdAt: Desc }
+  ) {
+    id
+    title
+    content
+    createdAt
+    author {
+      name
+    }
+  }
+}
+```
+
+#### Search Specific User
+
+Search for a user by email address.
+
+```graphql
+query {
+  findFirstUser(where: { email: { eq: "user@example.com" } }) {
+    id
+    name
+    email
+    roles
+  }
+}
+```
+
+### 6.2. Mutation Examples
+
+#### Create New Post
+
+Create a new post. `authorId` is automatically set from the authentication info, so input is not required.
+
+```graphql
+mutation {
+  createOnePost(
+    input: {
+      title: "Pothos and Drizzle Integration"
+      content: "Building GraphQL APIs becomes very easy."
+      published: true
+    }
+  ) {
+    id
+    title
+    author {
+      name
+    }
+  }
+}
+```
+
+#### Update Post
+
+Update a post by specifying its ID. Category associations are also updated (replaced) at the same time.
+
+```graphql
+mutation {
+  updatePost(
+    where: { id: { eq: "uuid-of-the-post" } }
+    input: {
+      title: "Updated Title"
+      categories: {
+        set: [{ id: "uuid-of-category-1" }, { id: "uuid-of-category-2" }]
+      }
+    }
+  ) {
+    id
+    title
+    updatedAt
+    categories {
+      name
+    }
+  }
+}
+```
+
+#### Delete Post
+
+Delete a post by specifying its ID.
+
+```graphql
+mutation {
+  deletePost(where: { id: { eq: "uuid-of-the-post" } }) {
+    id
+  }
+}
+```
+
+### 6.3. Auth Mutation Examples
+
+#### Sign In
+
+Sign in using an email address.
+If successful, the server sets a JWT in an HTTP-only Cookie. Subsequent requests are automatically authenticated.
+In this sample program, passwords are intentionally not set, so authentication passes with just an email address.
+
+```graphql
+mutation {
+  signIn(email: "user@example.com") {
+    id
+    email
+    name
+    roles
+  }
+}
+```
+
+#### Get Current User Info (Me)
+
+Retrieve the currently signed-in user's information. Useful for checking if Cookie authentication is working.
+
+```graphql
+mutation {
+  me {
+    id
+    email
+    roles
+  }
+}
+```
+
+#### Sign Out
+
+Sign out and clear the authentication Cookie.
+
+```graphql
+mutation {
+  signOut
+}
+```

@@ -1,40 +1,40 @@
 # Pothos Drizzle Generator サンプル - 詳細解説
 
-このドキュメントでは、`pothos-drizzle-generator`を使用してGraphQL APIを構築するサンプルプロジェクトの詳細について解説します。
+このドキュメントでは、`pothos-drizzle-generator`を使用して GraphQL API を構築するサンプルプロジェクトの詳細について解説します。
 
 ## 1. プロジェクト概要
 
-このプロジェクトは、Hono、Pothos、Drizzle ORMを組み合わせ、`pothos-drizzle-generator`プラグインを活用してGraphQL APIを自動生成するサンプルです。
-主な目的は、Drizzle ORMで定義されたデータベーススキーマから、GraphQLの型、クエリ、ミューテーションを効率的に生成する方法を示すことです。
+このプロジェクトは、Hono、Pothos、Drizzle ORM を組み合わせ、`pothos-drizzle-generator`プラグインを活用して GraphQL API を自動生成するサンプルです。
+主な目的は、Drizzle ORM で定義されたデータベーススキーマから、GraphQL の型、クエリ、ミューテーションを効率的に生成する方法を示すことです。
 
 [![pothos-drizzle-generator-sample](./image.png)](https://github.com/SoraKumo001/pothos-drizzle-generator-sample)
 
 ### 主な特徴
 
--   **スキーマ自動生成**: `pothos-drizzle-generator`がDrizzleスキーマを解析し、GraphQLのCRUD操作を自動で生成します。
--   **ロールベースのアクセス制御 (RBAC)**: `executable`や`where`といったオプションを利用して、スキーマレベルで柔軟なアクセスコントロールを実装します。
--   **JWT認証**: HTTP-only Cookieに保存されたJWT（JSON Web Token）を用いた、セキュアなサインイン/サインアウト機能を提供します。
--   **Drizzle ORMとの連携**: PothosとDrizzle ORMをシームレスに連携させ、型安全なデータベース操作を実現します。
--   **対話的なAPIエクスプローラー**: Apollo GraphQL Explorerを同梱しており、ブラウザから直接GraphQL APIをテストできます。
+- **スキーマ自動生成**: `pothos-drizzle-generator`が Drizzle スキーマを解析し、GraphQL の CRUD 操作を自動で生成します。
+- **ロールベースのアクセス制御 (RBAC)**: `executable`や`where`といったオプションを利用して、スキーマレベルで柔軟なアクセスコントロールを実装します。
+- **JWT 認証**: HTTP-only Cookie に保存された JWT（JSON Web Token）を用いた、セキュアなサインイン/サインアウト機能を提供します。
+- **Drizzle ORM との連携**: Pothos と Drizzle ORM をシームレスに連携させ、型安全なデータベース操作を実現します。
+- **対話的な API エクスプローラー**: Apollo GraphQL Explorer を同梱しており、ブラウザから直接 GraphQL API をテストできます。
 
 ## 2. 技術スタック
 
 このプロジェクトで使用されている主要なライブラリとツールは以下の通りです。
 
-| カテゴリ           | ライブラリ/ツール                                                                      | バージョン (package.jsonより) | 概要                                                                         |
-| ------------------ | -------------------------------------------------------------------------------------- | ----------------------------- | ---------------------------------------------------------------------------- |
-| **Webフレームワーク** | `hono`                                                                                 | `^4.11.3`                     | 高速かつ軽量なWebフレームワーク。サーバーのエントリーポイントとして機能します。 |
-| **GraphQL**        | `@pothos/core`                                                                         | `^4.12.0`                     | 型安全なGraphQLスキーマを構築するためのライブラリ。                          |
-|                    | `graphql`                                                                              | `^16.12.0`                    | GraphQLの公式実装。                                                          |
-|                    | `@hono/graphql-server`                                                                 | `^0.7.0`                      | HonoでGraphQLサーバーをホストするためのミドルウェア。                      |
-|                    | `apollo-explorer`                                                                      | `^1.1.3`                      | 対話的なGraphQL IDE。                                                        |
-| **ORM**            | `drizzle-orm`                                                                          | `1.0.0-beta.8-734e789`        | TypeScriptに最適化された軽量なORM。                                          |
-|                    | `drizzle-kit`                                                                          | `1.0.0-beta.8-734e789`        | データベースマイグレーションを管理するツール。                               |
-| **Pothosプラグイン** | `@pothos/plugin-drizzle`                                                               | `0.16.1`                      | PothosとDrizzle ORMを連携させるための公式プラグイン。                      |
-|                    | `pothos-drizzle-generator`                                                             | `^0.1.24`                     | 本プロジェクトの核となる、DrizzleスキーマからGraphQLスキーマを自動生成するプラグイン。 |
-| **データベース**     | `PostgreSQL`                                                                           | -                             | Dockerで実行されるリレーショナルデータベース。                               |
-| **実行環境**       | `tsx`                                                                                  | `^4.21.0`                     | TypeScriptファイルを直接実行するためのツール。                               |
-| **認証**           | `jose`                                                                                 | `^6.1.3`                      | JWTの生成と検証を行うためのライブラリ。                                      |
+| カテゴリ               | ライブラリ/ツール          | バージョン (package.json より) | 概要                                                                                      |
+| ---------------------- | -------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------- |
+| **Web フレームワーク** | `hono`                     | `^4.11.3`                      | 高速かつ軽量な Web フレームワーク。サーバーのエントリーポイントとして機能します。         |
+| **GraphQL**            | `@pothos/core`             | `^4.12.0`                      | 型安全な GraphQL スキーマを構築するためのライブラリ。                                     |
+|                        | `graphql`                  | `^16.12.0`                     | GraphQL の公式実装。                                                                      |
+|                        | `@hono/graphql-server`     | `^0.7.0`                       | Hono で GraphQL サーバーをホストするためのミドルウェア。                                  |
+|                        | `apollo-explorer`          | `^1.1.3`                       | 対話的な GraphQL IDE。                                                                    |
+| **ORM**                | `drizzle-orm`              | `1.0.0-beta.8-734e789`         | TypeScript に最適化された軽量な ORM。                                                     |
+|                        | `drizzle-kit`              | `1.0.0-beta.8-734e789`         | データベースマイグレーションを管理するツール。                                            |
+| **Pothos プラグイン**  | `@pothos/plugin-drizzle`   | `0.16.1`                       | Pothos と Drizzle ORM を連携させるための公式プラグイン。                                  |
+|                        | `pothos-drizzle-generator` | `^0.1.24`                      | 本プロジェクトの核となる、Drizzle スキーマから GraphQL スキーマを自動生成するプラグイン。 |
+| **データベース**       | `PostgreSQL`               | -                              | Docker で実行されるリレーショナルデータベース。                                           |
+| **実行環境**           | `tsx`                      | `^4.21.0`                      | TypeScript ファイルを直接実行するためのツール。                                           |
+| **認証**               | `jose`                     | `^6.1.3`                       | JWT の生成と検証を行うためのライブラリ。                                                  |
 
 ## 3. プロジェクト構造
 
@@ -62,9 +62,9 @@
 
 ### 4.1. 前提条件
 
--   Node.js
--   Docker (PostgreSQLの実行に必要)
--   pnpm (パッケージマネージャー)
+- Node.js
+- Docker (PostgreSQL の実行に必要)
+- pnpm (パッケージマネージャー)
 
 ### 4.2. 初期設定
 
@@ -99,28 +99,28 @@
 pnpm run dev
 ```
 
-サーバーは `http://localhost:3000` で利用可能になります。このURLにアクセスすると、Apollo Explorerが開き、APIを対話的に操作できます。
+サーバーは `http://localhost:3000` で利用可能になります。この URL にアクセスすると、Apollo Explorer が開き、API を対話的に操作できます。
 
 ### 4.4. 利用可能なスクリプト
 
 `package.json`で定義されている主要なスクリプトです。
 
--   `dev`: 開発サーバーを起動します。ファイルの変更を監視し、自動で再起動します。
--   `dev:docker`: Docker Composeを使用してPostgreSQLデータベースを起動します。
--   `drizzle:generate`: Drizzleスキーマの変更に基づいてマイグレーションファイルを生成します。
--   `drizzle:migrate`: マイグレーションファイルを実行してデータベーススキーマを更新します。
--   `drizzle:reset`: データベースをリセットし、マイグレーションとシーディングを再実行します。
--   `drizzle:seed`: `tools/seed.ts` を実行し、データベースに初期データを投入します。
+- `dev`: 開発サーバーを起動します。ファイルの変更を監視し、自動で再起動します。
+- `dev:docker`: Docker Compose を使用して PostgreSQL データベースを起動します。
+- `drizzle:generate`: Drizzle スキーマの変更に基づいてマイグレーションファイルを生成します。
+- `drizzle:migrate`: マイグレーションファイルを実行してデータベーススキーマを更新します。
+- `drizzle:reset`: データベースをリセットし、マイグレーションとシーディングを再実行します。
+- `drizzle:seed`: `tools/seed.ts` を実行し、データベースに初期データを投入します。
 
 ## 5. 動作の仕組み
 
 ### 5.1. データベーススキーマとリレーション (`src/db/schema.ts` と `relations.ts`)
 
-データモデルの定義は、Drizzle ORMの中核です。このプロジェクトでは、`src/db/schema.ts`でテーブル構造を定義し、`src/db/relations.ts`でテーブル間の関連性を定義しています。
+データモデルの定義は、Drizzle ORM の中核です。このプロジェクトでは、`src/db/schema.ts`でテーブル構造を定義し、`src/db/relations.ts`でテーブル間の関連性を定義しています。
 
 #### 5.1.1. テーブルスキーマ定義 (`src/db/schema.ts`)
 
-このファイルは、PostgreSQLデータベース内のテーブル、カラム、型を定義します。
+このファイルは、PostgreSQL データベース内のテーブル、カラム、型を定義します。
 
 ```typescript
 // src/db/schema.ts
@@ -182,14 +182,14 @@ export const postsToCategories = pgTable(
 );
 ```
 
--   **`users`**: ユーザー情報を格納します。`roles`カラムは`pgEnum`で定義された`roleEnum`の配列であり、`ADMIN`または`USER`の役割を持つことができます。
--   **`posts`**: 投稿記事の情報を格納します。`authorId`カラムは`users`テーブルの`id`を参照する外部キーとなっており、ユーザーが削除された場合には関連する投稿も削除されるよう`onDelete: "cascade"`が設定されています。
--   **`categories`**: 投稿に付与するカテゴリの情報を格納します。
--   **`postsToCategories`**: `posts`と`categories`の多対多（Many-to-Many）関係を実現するための中間テーブルです。`postId`と`categoryId`の組み合わせで複合主キーが設定されています。
+- **`users`**: ユーザー情報を格納します。`roles`カラムは`pgEnum`で定義された`roleEnum`の配列であり、`ADMIN`または`USER`の役割を持つことができます。
+- **`posts`**: 投稿記事の情報を格納します。`authorId`カラムは`users`テーブルの`id`を参照する外部キーとなっており、ユーザーが削除された場合には関連する投稿も削除されるよう`onDelete: "cascade"`が設定されています。
+- **`categories`**: 投稿に付与するカテゴリの情報を格納します。
+- **`postsToCategories`**: `posts`と`categories`の多対多（Many-to-Many）関係を実現するための中間テーブルです。`postId`と`categoryId`の組み合わせで複合主キーが設定されています。
 
 #### 5.1.2. リレーション定義 (`src/db/relations.ts`)
 
-`schema.ts`で定義したテーブル構造に基づき、テーブル間のリレーションをDrizzleに伝えます。これにより、`db.query.users.findFirst({ with: { posts: true } })`のように、関連データを簡単に取得できるようになります。
+`schema.ts`で定義したテーブル構造に基づき、テーブル間のリレーションを Drizzle に伝えます。これにより、`db.query.users.findFirst({ with: { posts: true } })`のように、関連データを簡単に取得できるようになります。
 
 ```typescript
 // src/db/relations.ts
@@ -233,23 +233,23 @@ export const relations = defineRelations(schema, (r) => ({
 }));
 ```
 
--   **users to posts**: `users`は複数の`posts`を持つ一対多（One-to-Many）の関係です。`r.many.posts`で定義します。
--   **posts to users**: `posts`は一人の`author`（`users`）に属する多対一（Many-to-One）の関係です。`r.one.users`で定義します。
--   **posts to categories**: `posts`と`categories`は多対多（Many-to-Many）の関係です。中間テーブル`postsToCategories`を介して関連付けられるため、`.through()`メソッドを使用しています。
--   **postsToCategories**: 中間テーブル自体も、それぞれ`posts`テーブルと`categories`テーブルへの一対一（One-to-One）の関係を持ちます。
+- **users to posts**: `users`は複数の`posts`を持つ一対多（One-to-Many）の関係です。`r.many.posts`で定義します。
+- **posts to users**: `posts`は一人の`author`（`users`）に属する多対一（Many-to-One）の関係です。`r.one.users`で定義します。
+- **posts to categories**: `posts`と`categories`は多対多（Many-to-Many）の関係です。中間テーブル`postsToCategories`を介して関連付けられるため、`.through()`メソッドを使用しています。
+- **postsToCategories**: 中間テーブル自体も、それぞれ`posts`テーブルと`categories`テーブルへの一対一（One-to-One）の関係を持ちます。
 
-これらのリレーション定義は、`pothos-drizzle-generator`がGraphQLスキーマを生成する際に、フィールド間の関連性を理解し、ネストされたクエリ（例: `query { findManyPosts { author { name } } }`）を正しく解決するために不可欠です。
+これらのリレーション定義は、`pothos-drizzle-generator`が GraphQL スキーマを生成する際に、フィールド間の関連性を理解し、ネストされたクエリ（例: `query { findManyPosts { author { name } } }`）を正しく解決するために不可欠です。
 
-#### 5.1.3. ER図
+#### 5.1.3. ER 図
 
-`schema.ts`と`relations.ts`に基づいた、データベースのEntity-Relationship (ER) 図は以下の通りです。
+`schema.ts`と`relations.ts`に基づいた、データベースの Entity-Relationship (ER) 図は以下の通りです。
 
 ```mermaid
 erDiagram
     User ||--o{ Post : "author"
-    
+
     Post ||--o{ PostToCategory : "categories"
-    
+
     Category ||--o{ PostToCategory : "posts"
 
     User {
@@ -285,9 +285,9 @@ erDiagram
     }
 ```
 
-### 5.2. GraphQLスキーマの自動生成 (`src/builder.ts`)
+### 5.2. GraphQL スキーマの自動生成 (`src/builder.ts`)
 
-このプロジェクトの心臓部です。`PothosDrizzleGeneratorPlugin` を使ってGraphQLスキーマを自動生成します。
+このプロジェクトの心臓部です。`PothosDrizzleGeneratorPlugin` を使って GraphQL スキーマを自動生成します。
 
 ```typescript
 // src/builder.ts
@@ -304,52 +304,55 @@ const builder = new SchemaBuilder<PothosTypes>({
 
 `pothosDrizzleGenerator`の設定を通じて、グローバルおよびモデル単位で詳細なセキュリティルールを定義しています。
 
--   **グローバルな実行制御**:
-    `all.executable` オプションで、認証されていないユーザーによる `mutation` 操作を全て拒否します。これにより、APIの書き込み操作が保護されます。
-    ```typescript
-    executable: ({ operation, ctx }) => {
-      if (isOperation(["mutation"], operation) && !ctx.get("user")) {
-        return false;
-      }
-      return true;
-    },
-    ```
+- **グローバルな実行制御**:
+  `all.executable` オプションで、認証されていないユーザーによる `mutation` 操作を全て拒否します。これにより、API の書き込み操作が保護されます。
 
--   **行レベルセキュリティ (Row-Level Security)**:
-    `posts`モデルの`where`オプションを使用して、ユーザーが見れるデータをフィルタリングします。
-    -   **クエリ時**: ユーザーは「公開されている投稿」または「自身が作成した投稿」のみを取得できます。
-    -   **ミューテーション時**: ユーザーは「自身が作成した投稿」に対してのみ更新・削除操作が可能です。
-    ```typescript
-    where: ({ ctx, operation }) => {
-      if (isOperation(["query"], operation)) {
-        return {
-          OR: [{ authorId: ctx.get("user")?.id }, { published: true }],
-        };
-      }
-      if (isOperation(["mutation"], operation)) {
-        return { authorId: ctx.get("user")?.id };
-      }
-    },
-    ```
+  ```typescript
+  executable: ({ operation, ctx }) => {
+    if (isOperation(["mutation"], operation) && !ctx.get("user")) {
+      return false;
+    }
+    return true;
+  },
+  ```
 
--   **入力データの自動挿入**:
-    `posts`モデルの`inputData`オプションを使い、`create`操作時に`authorId`フィールドを現在認証中のユーザーIDで自動的に補完します。
-    ```typescript
-    inputData: ({ ctx }) => {
-      const user = ctx.get("user");
-      if (!user) throw new Error("No permission");
-      return { authorId: user.id };
-    },
-    ```
+- **行レベルセキュリティ (Row-Level Security)**:
+  `posts`モデルの`where`オプションを使用して、ユーザーが見れるデータをフィルタリングします。
 
-### 5.3. HonoによるGraphQLサーバーの実装 (`src/index.ts`)
+  - **クエリ時**: ユーザーは「公開されている投稿」または「自身が作成した投稿」のみを取得できます。
+  - **ミューテーション時**: ユーザーは「自身が作成した投稿」に対してのみ更新・削除操作が可能です。
 
-Honoは、高速で軽量なWeb標準準拠のWebフレームワークです。このプロジェクトでは、HonoをGraphQLサーバーのホストとして使用しています。
+  ```typescript
+  where: ({ ctx, operation }) => {
+    if (isOperation(["query"], operation)) {
+      return {
+        OR: [{ authorId: ctx.get("user")?.id }, { published: true }],
+      };
+    }
+    if (isOperation(["mutation"], operation)) {
+      return { authorId: ctx.get("user")?.id };
+    }
+  },
+  ```
 
-#### 5.3.1. GraphQLミドルウェア
+- **入力データの自動挿入**:
+  `posts`モデルの`inputData`オプションを使い、`create`操作時に`authorId`フィールドを現在認証中のユーザー ID で自動的に補完します。
+  ```typescript
+  inputData: ({ ctx }) => {
+    const user = ctx.get("user");
+    if (!user) throw new Error("No permission");
+    return { authorId: user.id };
+  },
+  ```
 
-`@hono/graphql-server` パッケージを使用することで、Hono上で簡単にGraphQLサーバーを稼働させることができます。
-`src/index.ts` では、POSTリクエストに対して `graphqlServer` ミドルウェアを適用しています。
+### 5.3. Hono による GraphQL サーバーの実装 (`src/index.ts`)
+
+Hono は、高速で軽量な Web 標準準拠の Web フレームワークです。このプロジェクトでは、Hono を GraphQL サーバーのホストとして使用しています。
+
+#### 5.3.1. GraphQL ミドルウェア
+
+`@hono/graphql-server` パッケージを使用することで、Hono 上で簡単に GraphQL サーバーを稼働させることができます。
+`src/index.ts` では、POST リクエストに対して `graphqlServer` ミドルウェアを適用しています。
 
 ```typescript
 app.post("/", authMiddleware, (c, next) => {
@@ -361,8 +364,8 @@ app.post("/", authMiddleware, (c, next) => {
 
 #### 5.3.2. コンテキストストレージ
 
-Honoの `contextStorage` ミドルウェアを使用することで、リクエストスコープ内のどこからでもコンテキスト情報（認証ユーザーなど）にアクセスできるようになります。
-これは、GraphQLのリゾルバ内でユーザー情報を取得する際に役立ちます。
+Hono の `contextStorage` ミドルウェアを使用することで、リクエストスコープ内のどこからでもコンテキスト情報（認証ユーザーなど）にアクセスできるようになります。
+これは、GraphQL のリゾルバ内でユーザー情報を取得する際に役立ちます。
 
 ```typescript
 import { contextStorage } from "hono/context-storage";
@@ -372,8 +375,8 @@ app.use(contextStorage());
 
 #### 5.3.3. Apollo Explorer
 
-開発者体験を向上させるため、GETリクエストに対しては `apollo-explorer` を表示するように設定されています。
-これにより、ブラウザ上で直感的にクエリを作成・実行し、APIの動作を確認できます。
+開発者体験を向上させるため、GET リクエストに対しては `apollo-explorer` を表示するように設定されています。
+これにより、ブラウザ上で直感的にクエリを作成・実行し、API の動作を確認できます。
 
 ```typescript
 app.get("/", (c) => {
@@ -391,11 +394,11 @@ app.get("/", (c) => {
 
 ### 5.4. 認証フロー (`src/index.ts` と `src/builder.ts`)
 
-認証はJWTとCookieを用いて実装されています。
+認証は JWT と Cookie を用いて実装されています。
 
 #### 5.4.1. 認証ミドルウェア (`src/index.ts`)
 
-`authMiddleware`は、GraphQLエンドポイントへのすべてのリクエストの前に実行されます。HTTP-only Cookie (`auth-token`) からJWTを抽出し、`jose`ライブラリを使って検証します。
+`authMiddleware`は、GraphQL エンドポイントへのすべてのリクエストの前に実行されます。HTTP-only Cookie (`auth-token`) から JWT を抽出し、`jose`ライブラリを使って検証します。
 
 ```typescript
 // src/index.ts
@@ -424,31 +427,30 @@ const authMiddleware = async (
 };
 ```
 
-このミドルウェアにより、検証が成功した場合はユーザー情報がHonoのコンテキストに格納され、Pothosのビルダーやリゾルバ内で利用可能になります。
+このミドルウェアにより、検証が成功した場合はユーザー情報が Hono のコンテキストに格納され、Pothos のビルダーやリゾルバ内で利用可能になります。
 
 #### 5.4.2. 認証ミューテーション (`src/builder.ts`)
 
-自動生成されるCRUD操作とは別に、手動で3つの認証用ミューテーションを定義しています。
-    -   `signIn`: メールアドレスを受け取り、ユーザーを認証します。成功した場合、JWTを生成し、`auth-token`という名前でセキュアなHTTP-only Cookieに設定します。
-    -   `signOut`: `auth-token` Cookieをクリアし、ユーザーをサインアウトさせます。
-    -   `me`: 現在認証中のユーザー情報を返します。
+自動生成される CRUD 操作とは別に、手動で 3 つの認証用ミューテーションを定義しています。 - `signIn`: メールアドレスを受け取り、ユーザーを認証します。成功した場合、JWT を生成し、`auth-token`という名前でセキュアな HTTP-only Cookie に設定します。 - `signOut`: `auth-token` Cookie をクリアし、ユーザーをサインアウトさせます。 - `me`: 現在認証中のユーザー情報を返します。
 
-## 6. API操作
+## 6. API 操作
 
-`pothos-drizzle-generator`により、各モデル（`users`, `posts`, `categories`）に対して以下のGraphQL操作が自動的に生成されます。
+`pothos-drizzle-generator`により、各モデル（`users`, `posts`, `categories`）に対して以下の GraphQL 操作が自動的に生成されます。
 
--   **クエリ**:
-    -   `findMany*`: 複数件のレコードを取得します。（例: `findManyUsers`）
-    -   `findFirst*`: 条件に一致する最初の1件を取得します。（例: `findFirstPost`）
-    -   `count*`: 条件に一致するレコード数を取得します。（例: `countPosts`）
+- **クエリ**:
 
--   **ミューテーション**:
-    -   `create*`: 新しいレコードを作成します。（例: `createPost`）
-    -   `update*`: 既存のレコードを更新します。（例: `updatePost`）
-    -   `delete*`: レコードを削除します。（例: `deletePost`）
+  - `findMany*`: 複数件のレコードを取得します。（例: `findManyUsers`）
+  - `findFirst*`: 条件に一致する最初の 1 件を取得します。（例: `findFirstPost`）
+  - `count*`: 条件に一致するレコード数を取得します。（例: `countPosts`）
 
--   **対応フィルタ**:
-    クエリでは、`AND`, `OR`, `NOT`, `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in` など、豊富なフィルタ条件が利用可能です。
+- **ミューテーション**:
+
+  - `create*`: 新しいレコードを作成します。（例: `createPost`）
+  - `update*`: 既存のレコードを更新します。（例: `updatePost`）
+  - `delete*`: レコードを削除します。（例: `deletePost`）
+
+- **対応フィルタ**:
+  クエリでは、`AND`, `OR`, `NOT`, `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `like`, `in` など、豊富なフィルタ条件が利用可能です。
 
 ### 6.1. クエリの具体例
 
@@ -479,9 +481,7 @@ query {
 
 ```graphql
 query {
-  findFirstUser(
-    where: { email: { eq: "user@example.com" } }
-  ) {
+  findFirstUser(where: { email: { eq: "user@example.com" } }) {
     id
     name
     email
@@ -516,7 +516,7 @@ mutation {
 
 #### 投稿の更新
 
-IDを指定して投稿を更新します。カテゴリの関連付けも同時に更新（置換）しています。
+ID を指定して投稿を更新します。カテゴリの関連付けも同時に更新（置換）しています。
 
 ```graphql
 mutation {
@@ -541,7 +541,7 @@ mutation {
 
 #### 投稿の削除
 
-IDを指定して投稿を削除します。
+ID を指定して投稿を削除します。
 
 ```graphql
 mutation {
@@ -556,7 +556,8 @@ mutation {
 #### サインイン
 
 メールアドレスを使用してサインインします。
-成功すると、サーバーはHTTP-only CookieにJWTを設定します。以降のリクエストは自動的に認証されます。
+成功すると、サーバーは HTTP-only Cookie に JWT を設定します。以降のリクエストは自動的に認証されます。
+サンプルプログラムでは意図的にパスワードは設定していないので、メールアドレスのみで認証が通ります。
 
 ```graphql
 mutation {
@@ -571,7 +572,7 @@ mutation {
 
 #### 現在のユーザー情報の取得 (Me)
 
-現在サインインしているユーザーの情報を取得します。Cookieによる認証が機能しているか確認するのに便利です。
+現在サインインしているユーザーの情報を取得します。Cookie による認証が機能しているか確認するのに便利です。
 
 ```graphql
 mutation {
@@ -585,7 +586,7 @@ mutation {
 
 #### サインアウト
 
-サインアウトし、認証Cookieをクリアします。
+サインアウトし、認証 Cookie をクリアします。
 
 ```graphql
 mutation {
