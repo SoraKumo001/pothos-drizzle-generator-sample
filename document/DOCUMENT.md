@@ -63,7 +63,7 @@
 ### 4.1. 前提条件
 
 - Node.js
-- Docker (PostgreSQL の実行に必要)
+- Docker (PostgreSQL の実行に必要\)
 - pnpm (パッケージマネージャー)
 
 ### 4.2. 初期設定
@@ -305,7 +305,7 @@ const builder = new SchemaBuilder<PothosTypes>({
 `pothosDrizzleGenerator`の設定を通じて、グローバルおよびモデル単位で詳細なセキュリティルールを定義しています。
 
 - **グローバルな実行制御**:
-  `all.executable` オプションで、認証されていないユーザーによる `mutation` 操作を全て拒否します。これにより、API の書き込み操作が保護されます。
+  `all.executable` オプションで、認証されていないユーザーによる `mutation` 操作をすべて拒否します。これにより、API の書き込み操作が保護されます。
 
   ```typescript
   executable: ({ operation, ctx }) => {
@@ -317,7 +317,7 @@ const builder = new SchemaBuilder<PothosTypes>({
   ```
 
 - **行レベルセキュリティ (Row-Level Security)**:
-  `posts`モデルの`where`オプションを使用して、ユーザーが見れるデータをフィルタリングします。
+  `posts`モデルの`where`オプションを使用して、ユーザーが見られるデータをフィルタリングします。
 
   - **クエリ時**: ユーザーは「公開されている投稿」または「自身が作成した投稿」のみを取得できます。
   - **ミューテーション時**: ユーザーは「自身が作成した投稿」に対してのみ更新・削除操作が可能です。
