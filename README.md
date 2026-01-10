@@ -28,8 +28,8 @@ The main libraries and tools used in this project are as follows:
 |                   | `graphql`                  | `^16.12.0`                  | The official GraphQL implementation.                                                               |
 |                   | `@hono/graphql-server`     | `^0.7.0`                    | Middleware for hosting a GraphQL server with Hono.                                                 |
 |                   | `apollo-explorer`          | `^1.1.3`                    | An interactive GraphQL IDE.                                                                        |
-| **ORM**           | `drizzle-orm`              | `1.0.0-beta.8-734e789`      | A lightweight ORM optimized for TypeScript.                                                        |
-|                   | `drizzle-kit`              | `1.0.0-beta.8-734e789`      | A tool for managing database migrations.                                                           |
+| **ORM**           | `drizzle-orm`              | `1.0.0-beta.10`             | A lightweight ORM optimized for TypeScript.                                                        |
+|                   | `drizzle-kit`              | `1.0.0-beta.10`             | A tool for managing database migrations.                                                           |
 | **Pothos Plugin** | `@pothos/plugin-drizzle`   | `0.16.1`                    | The official plugin for integrating Pothos and Drizzle ORM.                                        |
 |                   | `pothos-drizzle-generator` | `^0.1.24`                   | The core plugin of this project that automatically generates GraphQL schemas from Drizzle schemas. |
 | **Database**      | `PostgreSQL`               | -                           | A relational database running in Docker.                                                           |
