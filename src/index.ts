@@ -45,7 +45,7 @@ const PORT = 3000;
  */
 const authMiddleware = async (
   c: HonoContext<Context>,
-  next: () => Promise<void>
+  next: () => Promise<void>,
 ) => {
   const cookies = getCookie(c);
   const token = cookies[AUTH_TOKEN_COOKIE] ?? "";
@@ -56,7 +56,7 @@ const authMiddleware = async (
    */
   const user = await jwtVerify(token, new TextEncoder().encode(SECRET))
     .then(
-      (data) => data.payload.user as typeof relations.users.table.$inferSelect
+      (data) => data.payload.user as typeof relations.users.table.$inferSelect,
     )
     .catch(() => undefined);
 
@@ -88,13 +88,13 @@ app.get("/", (c) => {
     explorer({
       initialState: {
         // Auto-generate sample GraphQL operations from the schema
-        document: generate(schema, QUERY_GENERATION_DEPTH),
+        // document: generate(schema, QUERY_GENERATION_DEPTH),
       },
       // GraphQL endpoint URL for the explorer to connect to
       endpointUrl: "/",
       // Automatically refresh schema periodically
       introspectionInterval: INTROSPECTION_INTERVAL,
-    })
+    }),
   );
 });
 

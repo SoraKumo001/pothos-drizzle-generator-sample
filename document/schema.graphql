@@ -90,9 +90,9 @@ input PostOrderBy {
 
 input PostCreate {
   id: String
-  published: Boolean!
+  published: Boolean
   title: String
-  content: String!
+  content: String
   authorId: String
   publishedAt: DateTime
   categories: Post_categories
@@ -185,7 +185,7 @@ input DateTimeInputOperator {
 }
 
 input Category_postsSet {
-  id: String!
+  id: String
 }
 
 input Category_posts {
@@ -213,7 +213,7 @@ input BooleanInputOperator {
 }
 
 input Post_categoriesSet {
-  id: String!
+  id: String
 }
 
 input Post_categories {
