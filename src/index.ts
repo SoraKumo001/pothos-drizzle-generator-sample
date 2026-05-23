@@ -88,7 +88,7 @@ app.get("/", (c) => {
     explorer({
       initialState: {
         // Auto-generate sample GraphQL operations from the schema
-        // document: generate(schema, QUERY_GENERATION_DEPTH),
+        document: generate(schema, QUERY_GENERATION_DEPTH),
       },
       // GraphQL endpoint URL for the explorer to connect to
       endpointUrl: "/",

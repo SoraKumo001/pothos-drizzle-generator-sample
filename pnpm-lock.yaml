@@ -24,8 +24,8 @@ importers:
         specifier: ^14.5.0
         version: 14.5.0
       apollo-explorer:
-        specifier: ^1.1.5
-        version: 1.1.5
+        specifier: ^1.1.6
+        version: 1.1.6
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -796,8 +796,8 @@ packages:
   ajv@6.15.0:
     resolution: {integrity: sha512-fgFx7Hfoq60ytK2c7DhnF8jIvzYgOMxfugjLOSMHjLIPgenqa7S7oaagATUq99mV6IYvN2tRmC0wnTYX6iPbMw==}
 
-  apollo-explorer@1.1.5:
-    resolution: {integrity: sha512-8njhQNlBMjNfTPjWGQNrJLLkcaQQcAZw5XW40GWXd3Ryv6cf70z0d5yfsXEHU2DVLDR7+alKxOJuDAp20QHuqw==}
+  apollo-explorer@1.1.6:
+    resolution: {integrity: sha512-GGjxVPh2nQVzsug2+xYShkgOaARvTsSbvoUCfeu9uCH7/qjEPcUjjsvwjRF1mzUcMhlySy4Mr4pmQwBkmnEVVg==}
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -2674,7 +2674,7 @@ snapshots:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
-  apollo-explorer@1.1.5:
+  apollo-explorer@1.1.6:
     dependencies:
       graphql: 16.11.0
 

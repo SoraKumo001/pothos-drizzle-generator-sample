@@ -20,7 +20,7 @@
     "@pothos/core": "^4.12.0",
     "@pothos/plugin-drizzle": "^0.17.4",
     "@types/graphql": "^14.5.0",
-    "apollo-explorer": "^1.1.5",
+    "apollo-explorer": "^1.1.6",
     "dotenv": "^17.4.2",
     "drizzle-orm": "1.0.0-rc.3",
     "graphql": "^16.14.0",
